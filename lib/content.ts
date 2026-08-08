@@ -10,7 +10,7 @@ export const profile = {
   email: "hello@example.com",
   socials: [
     { label: "GitHub", href: `https://github.com/${GITHUB_USER}` },
-    { label: "LinkedIn", href: "https://linkedin.com/" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/maulanadityaa/" },
   ],
 };
 
