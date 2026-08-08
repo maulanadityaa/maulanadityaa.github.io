@@ -1,4 +1,50 @@
-import type { ReactNode } from "react";
+import type { ComponentType, ReactNode } from "react";
+import {
+  IconBrandCSharp,
+  IconBrandCss3,
+  IconBrandDocker,
+  IconBrandGolang,
+  IconBrandHtml5,
+  IconBrandJavascript,
+  IconBrandKotlin,
+  IconBrandPhp,
+  IconBrandPython,
+  IconBrandReact,
+  IconBrandRust,
+  IconBrandTypescript,
+  IconCode,
+  IconCoffee,
+  IconStar,
+} from "@tabler/icons-react";
+
+type TechIcon = ComponentType<{
+  size?: string | number;
+  stroke?: string | number;
+  className?: string;
+}>;
+
+const TECH_ICONS: Record<string, TechIcon> = {
+  TypeScript: IconBrandTypescript,
+  JavaScript: IconBrandJavascript,
+  Go: IconBrandGolang,
+  Java: IconCoffee,
+  "C#": IconBrandCSharp,
+  Python: IconBrandPython,
+  Dart: IconCode,
+  HTML: IconBrandHtml5,
+  CSS: IconBrandCss3,
+  Kotlin: IconBrandKotlin,
+  PHP: IconBrandPhp,
+  Rust: IconBrandRust,
+  Docker: IconBrandDocker,
+  React: IconBrandReact,
+};
+
+export function TechMark({ lang }: { lang: string }) {
+  const Icon = TECH_ICONS[lang] ?? IconCode;
+  return <Icon aria-hidden size={14} stroke={1.8} className="shrink-0" />;
+}
+
 
 export function Section({
   id,
@@ -24,9 +70,10 @@ export function Section({
   );
 }
 
-export function Tag({ children }: { children: ReactNode }) {
+export function Tag({ children, icon }: { children: ReactNode; icon?: ReactNode }) {
   return (
-    <span className="rounded-full border border-line px-2.5 py-0.5 font-mono text-[11px] text-muted">
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-line px-2.5 py-0.5 font-mono text-[11px] text-muted">
+      {icon}
       {children}
     </span>
   );
@@ -51,24 +98,14 @@ const LANG_COLORS: Record<string, string> = {
 export function LangDot({ lang }: { lang: string }) {
   return (
     <span className="inline-flex items-center gap-1.5 font-mono text-[11px] text-muted">
-      <span
-        aria-hidden
-        className="h-2 w-2 shrink-0 rounded-full"
-        style={{ backgroundColor: LANG_COLORS[lang] ?? "var(--color-muted)" }}
-      />
+      <span className="text-accent" style={{ color: LANG_COLORS[lang] ?? "var(--color-accent)" }}>
+        <TechMark lang={lang} />
+      </span>
       {lang}
     </span>
   );
 }
 
 export function StarIcon() {
-  return (
-    <svg
-      aria-hidden
-      viewBox="0 0 16 16"
-      className="h-3 w-3 fill-current"
-    >
-      <path d="M8 .25l2.29 4.64 5.12.74-3.7 3.61.87 5.1L8 11.93l-4.58 2.41.87-5.1L.59 5.63l5.12-.74L8 .25z" />
-    </svg>
-  );
+  return <IconStar aria-hidden size={13} stroke={1.8} className="shrink-0" />;
 }
