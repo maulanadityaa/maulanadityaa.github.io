@@ -3,5 +3,13 @@ node_modules
 out
 .env*.local
 next-env.d.ts
-
 *.tsbuildinfo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Claude Code / local agent dir
+.claude/settings.local.json
+.claude/worktrees/
+.claude/state/
