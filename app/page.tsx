@@ -4,6 +4,7 @@ import { Section, Tag } from "@/components/ui";
 import {
   GITHUB_USER,
   LINKEDIN_URL,
+  education,
   experienceSource,
   featured,
   profile,
@@ -191,6 +192,15 @@ export default async function Home() {
           >
             View full experience on LinkedIn ↗
           </a>
+
+          <div className="mt-10 border-t border-line pt-6">
+            <p className="font-mono text-[11px] uppercase tracking-widest text-muted">
+              Education
+            </p>
+            <p className="mt-2 text-sm font-medium">{education.school}</p>
+            <p className="mt-1 text-sm text-muted">{education.degree}</p>
+            <p className="mt-1 font-mono text-[11px] text-muted">{education.period}</p>
+          </div>
         </Section>
 
         <Section id="contact" title="Contact">
