@@ -119,8 +119,8 @@ export function titleize(slug: string): string {
 }
 
 export function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("en-US", {
-    month: "short",
-    year: "numeric",
-  });
+  const d = new Date(iso);
+  const month = d.toLocaleString("en-US", { month: "short", timeZone: "UTC" });
+  const year = d.getUTCFullYear();
+  return `${month} ${year}`;
 }

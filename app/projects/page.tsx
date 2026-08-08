@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { RepoCard } from "@/components/repo-card";
 import { GITHUB_USER, profile } from "@/lib/content";
 import { LANG_PRIORITY, getRepos, type Repo } from "@/lib/github";
+import { ScrollReveal, StaggerList } from "@/components/animated";
 
 export const metadata: Metadata = {
   title: `Projects — ${profile.name}`,
@@ -57,24 +58,24 @@ export default async function Projects() {
         </p>
 
         {ordered.map(([lang, items]) => (
-          <section key={lang} className="mt-12">
+          <ScrollReveal key={lang} className="mt-12">
             <h2 className="mb-5 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-muted">
               <span className="text-accent">/</span>
               {lang}
               <span className="text-muted/50">{items.length}</span>
               <span className="h-px flex-1 bg-line" />
             </h2>
-            <ul className="grid gap-3 sm:grid-cols-2">
+            <StaggerList as="ul" className="grid gap-3 sm:grid-cols-2">
               {items.map((r) => (
                 <RepoCard key={r.name} repo={r} />
               ))}
-            </ul>
-          </section>
+            </StaggerList>
+          </ScrollReveal>
         ))}
       </main>
 
       <footer className="border-t border-line py-8 font-mono text-[11px] text-muted">
-        © {new Date().getFullYear()} {profile.name}
+        © 2026 {profile.name}
       </footer>
     </div>
   );

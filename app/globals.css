@@ -21,10 +21,10 @@
 
 html {
   scroll-behavior: smooth;
+  background-color: var(--color-bg);
 }
 
 body {
-  background-color: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
@@ -35,8 +35,9 @@ body::before {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background-image: radial-gradient(circle at 1px 1px, rgb(64 79 104 / 0.14) 1px, transparent 0),
-    radial-gradient(ellipse 85% 55% at 50% 0%, rgb(64 79 104 / 0.12), transparent 70%);
+  pointer-events: none;
+  background-image: radial-gradient(circle at 1px 1px, rgb(0 0 0 / 0.15) 1px, transparent 0),
+    radial-gradient(ellipse 85% 55% at 50% 0%, rgb(64 79 104 / 0.15), transparent 70%);
   background-size: 24px 24px, auto;
   mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, #000 20%, transparent 75%);
 }

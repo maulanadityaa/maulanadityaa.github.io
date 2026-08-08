@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { RevealSection, ScrollReveal, StaggerList } from "@/components/animated";
 import { RepoCard } from "@/components/repo-card";
 import { Section, Tag, TechMark } from "@/components/ui";
 import {
@@ -64,7 +65,7 @@ export default async function Home() {
       </header>
 
       <main id="main">
-        <section className="py-16 sm:py-24">
+        <RevealSection className="py-16 sm:py-24">
           <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-accent">
             {profile.role} · {profile.location}
           </p>
@@ -120,7 +121,7 @@ export default async function Home() {
               LinkedIn ↗
             </a>
           </div>
-        </section>
+        </RevealSection>
 
         <Section
           id="work"
@@ -135,11 +136,13 @@ export default async function Home() {
           }
         >
           {shown.length > 0 ? (
-            <ul className="grid gap-3 sm:grid-cols-2">
-              {shown.map((r) => (
-                <RepoCard key={r.name} repo={r} />
-              ))}
-            </ul>
+            <ScrollReveal>
+              <StaggerList as="ul" className="grid gap-3 sm:grid-cols-2">
+                {shown.map((r) => (
+                  <RepoCard key={r.name} repo={r} />
+                ))}
+              </StaggerList>
+            </ScrollReveal>
           ) : (
             <p className="rounded-md border border-line bg-surface p-5 text-sm text-muted">
               Could not load repositories from GitHub right now. See them at{" "}
@@ -163,19 +166,21 @@ export default async function Home() {
           </p>
 
           {langs.length > 0 && (
-            <div className="mt-6 flex flex-wrap gap-1.5">
-              {langs.map((l) => (
-                <Tag key={l} icon={<TechMark lang={l} />}>
-                  {l}
-                </Tag>
-              ))}
-            </div>
+            <ScrollReveal className="mt-6">
+              <div className="flex flex-wrap gap-1.5">
+                {langs.map((l) => (
+                  <Tag key={l} icon={<TechMark lang={l} />}>
+                    {l}
+                  </Tag>
+                ))}
+              </div>
+            </ScrollReveal>
           )}
 
-          <ol className="mt-10 border-l border-line">
+          <StaggerList as="ol" className="mt-10 border-l border-line">
             {timeline.map((t) => (
               <li key={t.period} className="relative pl-6 pb-8 last:pb-0">
-                <span className="absolute -left-[4.5px] top-1.5 h-2 w-2 rounded-full bg-accent" />
+                <span className="absolute left-[-4.5px] top-1.5 h-2 w-2 rounded-full bg-accent" />
                 <p className="font-mono text-[11px] uppercase tracking-widest text-muted">
                   {t.period}
                 </p>
@@ -185,7 +190,7 @@ export default async function Home() {
                 <p className="mt-1 text-sm leading-relaxed text-muted">{t.detail}</p>
               </li>
             ))}
-          </ol>
+          </StaggerList>
           <a
             href={experienceSource}
             target="_blank"
@@ -195,33 +200,35 @@ export default async function Home() {
             View full experience on LinkedIn ↗
           </a>
 
-          <div className="mt-10 border-t border-line pt-6">
+          <ScrollReveal className="mt-10 border-t border-line pt-6">
             <p className="font-mono text-[11px] uppercase tracking-widest text-muted">
               Education
             </p>
             <p className="mt-2 text-sm font-medium">{education.school}</p>
             <p className="mt-1 text-sm text-muted">{education.degree}</p>
             <p className="mt-1 font-mono text-[11px] text-muted">{education.period}</p>
-          </div>
+          </ScrollReveal>
         </Section>
 
         <Section id="contact" title="Contact">
-          <p className="max-w-xl text-sm leading-relaxed text-muted">
-            Open to backend and full-stack work. Easiest way to reach me is
-            email.
-          </p>
-          <a
-            href={`mailto:${profile.email}`}
-            className="mt-4 inline-block font-mono text-sm text-accent transition-opacity hover:opacity-70"
-          >
-            {profile.email}
-          </a>
+          <ScrollReveal>
+            <p className="max-w-xl text-sm leading-relaxed text-muted">
+              Open to backend and full-stack work. Easiest way to reach me is
+              email.
+            </p>
+            <a
+              href={`mailto:${profile.email}`}
+              className="mt-4 inline-block font-mono text-sm text-accent transition-opacity hover:opacity-70"
+            >
+              {profile.email}
+            </a>
+          </ScrollReveal>
         </Section>
       </main>
 
       <footer className="flex flex-col gap-4 border-t border-line py-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
         <p className="font-mono text-[11px]">
-          © {new Date().getFullYear()} {profile.name}
+          © 2026 {profile.name}
         </p>
         <div className="flex gap-4">
           {profile.socials.map((s) => (

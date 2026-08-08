@@ -50,14 +50,14 @@ export const featured = [
 
 export const timeline = [
   {
-    period: "Aug 2025 — now",
+    period: "Aug 2025 — now (SAP Hybris)",
     role: "SAP Hybris Consultant",
     org: "PT. Astra Graphia Information Technology (AGIT)",
     detail:
       "Working on enterprise commerce systems with Java, Spring Boot, and backend integrations.",
   },
   {
-    period: "Aug 2025 — now",
+    period: "Aug 2025 — now (Backend)",
     role: "Back End Developer",
     org: "PT Astra International Tbk",
     detail:
