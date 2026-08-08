@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { RepoCard } from "@/components/repo-card";
-import { Section, Tag } from "@/components/ui";
+import { Section, Tag, TechMark } from "@/components/ui";
 import {
   GITHUB_USER,
   LINKEDIN_URL,
@@ -165,7 +165,9 @@ export default async function Home() {
           {langs.length > 0 && (
             <div className="mt-6 flex flex-wrap gap-1.5">
               {langs.map((l) => (
-                <Tag key={l}>{l}</Tag>
+                <Tag key={l} icon={<TechMark lang={l} />}>
+                  {l}
+                </Tag>
               ))}
             </div>
           )}
