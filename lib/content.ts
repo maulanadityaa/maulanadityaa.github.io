@@ -3,11 +3,11 @@ export const GITHUB_USER = "maulanadityaa";
 export const LINKEDIN_URL = "https://www.linkedin.com/in/maulanadityaa/";
 
 export const profile = {
-  name: "Maulana Aditya",
-  role: "Software Engineer",
+  name: "Muhamad Maulana Zuhad Aditya",
+  role: "Java Spring Boot Developer",
   tagline:
-    "Backend-leaning engineer. I build APIs and services in Go, TypeScript, and Java — and care about the ones that stay fast after the demo.",
-  location: "Indonesia",
+    "Java Spring Boot developer building REST APIs, backend services, and reliable software with clean, practical engineering.",
+  location: "Jombang, East Java, Indonesia",
   email: "maulanadityaaa@gmail.com",
   socials: [
     { label: "GitHub", href: `https://github.com/${GITHUB_USER}` },
@@ -50,19 +50,38 @@ export const featured = [
 
 export const timeline = [
   {
-    period: "2024 — now",
-    role: "Software Engineer",
-    org: "Freelance / Contract",
+    period: "Aug 2025 — now",
+    role: "SAP Hybris Consultant",
+    org: "PT. Astra Graphia Information Technology (AGIT)",
     detail:
-      "Shipping backend services end to end: schema design, API surface, and the reliability work that nobody demos.",
+      "Working on enterprise commerce systems with Java, Spring Boot, and backend integrations.",
   },
   {
-    period: "2023 — 2024",
-    role: "Backend Developer",
+    period: "Aug 2025 — now",
+    role: "Back End Developer",
+    org: "PT Astra International Tbk",
+    detail:
+      "Developing backend services and APIs for production systems in an on-site engineering team.",
+  },
+  {
+    period: "Jan 2024 — May 2024",
+    role: "Trainee IT Bootcamp",
     org: "Enigma Camp",
     detail:
-      "Built REST services across Go, Java, and .NET. Learned to read other people's code without complaining.",
+      "Learned RESTful API development with Java Spring Boot, interactive React web development, React Native, clean code, and industry-standard practices.",
+  },
+  {
+    period: "Jun 2021 — Aug 2021",
+    role: "Quality Assurance Quality Control",
+    org: "Widya Wicara",
+    detail: "Manual tested smart-speaker products and reported product issues.",
   },
 ];
+
+export const education = {
+  school: "University of Brawijaya",
+  degree: "Bachelor's degree, Information Technology",
+  period: "2018 — 2022",
+};
 
 export const experienceSource = LINKEDIN_URL;
