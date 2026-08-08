@@ -1,7 +1,13 @@
 import Link from "next/link";
 import { RepoCard } from "@/components/repo-card";
 import { Section, Tag } from "@/components/ui";
-import { GITHUB_USER, featured, profile, timeline } from "@/lib/content";
+import {
+  GITHUB_USER,
+  LINKEDIN_URL,
+  featured,
+  profile,
+  timeline,
+} from "@/lib/content";
 import { LANG_PRIORITY, getProfile, getRepos } from "@/lib/github";
 
 const nav = [
@@ -102,6 +108,14 @@ export default async function Home() {
               className="rounded-full border border-line px-4 py-2 text-sm text-muted transition-colors hover:border-muted hover:text-text"
             >
               GitHub ↗
+            </a>
+            <a
+              href={LINKEDIN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full border border-line px-4 py-2 text-sm text-muted transition-colors hover:border-muted hover:text-text"
+            >
+              LinkedIn ↗
             </a>
           </div>
         </section>
