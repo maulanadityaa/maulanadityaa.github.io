@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { profile } from "@/lib/content";
 import "./globals.css";
 
@@ -24,6 +25,9 @@ export default function RootLayout({
         >
           Skip to content
         </a>
+        <div className="fixed right-5 top-4 z-40 sm:right-8">
+          <ThemeToggle />
+        </div>
         {children}
       </body>
     </html>

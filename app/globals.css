@@ -3,11 +3,11 @@
 @theme {
   --color-bg: #e6dcd3;
   --color-surface: #ffffff;
-  --color-line: #b4a79e;
+  --color-line: #8f8177;
   --color-text: #000000;
   --color-muted: #3f352c;
-  --color-accent: #bda18c;
-  --color-on-accent: #000000;
+  --color-accent: #70533f;
+  --color-on-accent: #ffffff;
 
   --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -44,6 +44,28 @@ body::before {
 ::selection {
   background: var(--color-accent);
   color: var(--color-on-accent);
+}
+
+:root[data-theme="dark"] {
+  --color-bg: #000000;
+  --color-surface: #3f352c;
+  --color-line: #b4a79e;
+  --color-text: #ffffff;
+  --color-muted: #e6dcd3;
+  --color-accent: #bda18c;
+  --color-on-accent: #000000;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-bg: #000000;
+    --color-surface: #3f352c;
+    --color-line: #b4a79e;
+    --color-text: #ffffff;
+    --color-muted: #e6dcd3;
+    --color-accent: #bda18c;
+    --color-on-accent: #000000;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
