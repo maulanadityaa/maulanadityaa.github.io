@@ -8,7 +8,7 @@ export const profile = {
   tagline:
     "Backend-leaning engineer. I build APIs and services in Go, TypeScript, and Java — and care about the ones that stay fast after the demo.",
   location: "Indonesia",
-  email: "hello@example.com",
+  email: "maulanadityaaa@gmail.com",
   socials: [
     { label: "GitHub", href: `https://github.com/${GITHUB_USER}` },
     { label: "LinkedIn", href: LINKEDIN_URL },
@@ -64,3 +64,5 @@ export const timeline = [
       "Built REST services across Go, Java, and .NET. Learned to read other people's code without complaining.",
   },
 ];
+
+export const experienceSource = LINKEDIN_URL;

@@ -4,6 +4,7 @@ import { Section, Tag } from "@/components/ui";
 import {
   GITHUB_USER,
   LINKEDIN_URL,
+  experienceSource,
   featured,
   profile,
   timeline,
@@ -182,6 +183,14 @@ export default async function Home() {
               </li>
             ))}
           </ol>
+          <a
+            href={experienceSource}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-5 inline-block font-mono text-[11px] text-accent transition-opacity hover:opacity-70"
+          >
+            View full experience on LinkedIn ↗
+          </a>
         </Section>
 
         <Section id="contact" title="Contact">
