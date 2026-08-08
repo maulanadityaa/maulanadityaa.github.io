@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { RepoCard } from "@/components/repo-card";
-import { GITHUB_USER, profile } from "@/lib/content";
+import { GITHUB_USER, profile, getContent } from "@/lib/content";
 import { LANG_PRIORITY, getRepos, type Repo } from "@/lib/github";
 import { ScrollReveal, StaggerList } from "@/components/animated";
 
@@ -11,7 +11,9 @@ export const metadata: Metadata = {
 };
 
 export default async function Projects() {
-  const repos = await getRepos(GITHUB_USER);
+  const content = await getContent();
+  const repos = await getRepos(GITHUB_USER, new Set(content.hidden));
+  const { repoNotes } = content;
 
   // Group by language so a long list does not read as one undifferentiated wall.
   const groups = repos.reduce<Record<string, Repo[]>>((acc, r) => {
@@ -67,7 +69,7 @@ export default async function Projects() {
             </h2>
             <StaggerList as="ul" className="grid gap-3 sm:grid-cols-2">
               {items.map((r) => (
-                <RepoCard key={r.name} repo={r} />
+                <RepoCard key={r.name} repo={r} notes={repoNotes} />
               ))}
             </StaggerList>
           </ScrollReveal>

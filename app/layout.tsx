@@ -1,15 +1,18 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { profile } from "@/lib/content";
+import { profile, getContent } from "@/lib/content";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
-export const metadata: Metadata = {
-  title: `${profile.name} — ${profile.role}`,
-  description: profile.tagline,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { profile } = await getContent();
+  return {
+    title: `${profile.name} — ${profile.role}`,
+    description: profile.tagline,
+  };
+}
 
 export default function RootLayout({
   children,

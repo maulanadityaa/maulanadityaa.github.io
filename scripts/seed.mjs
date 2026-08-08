@@ -1,24 +1,17 @@
-// Hand-written content. Everything else comes from the GitHub API (lib/github.ts).
-//
-// Editable via MongoDB Atlas UI, one document per section in the `content` collection
-// ({_id: "profile", data: {...}}, etc — see scripts/seed.mjs). FALLBACK below is what
-// renders when MONGODB_URI is unset or the DB is unreachable, so the site never goes down.
-import { unstable_cache } from "next/cache";
-import { db } from "@/lib/mongo";
+import { MongoClient } from "mongodb";
 
-export const GITHUB_USER = "maulanadityaa";
-export const LINKEDIN_URL = "https://www.linkedin.com/in/maulanadityaa/";
-export const experienceSource = LINKEDIN_URL;
+const uri = process.env.MONGODB_URI;
+if (!uri) {
+  console.error("Error: MONGODB_URI not set in environment or .env.local");
+  process.exit(1);
+}
 
-export type TimelineEntry = {
-  id: string;
-  period: string;
-  role: string;
-  org: string;
-  detail: string;
-};
+const dbName = process.env.MONGODB_DB ?? "porto";
 
-const FALLBACK = {
+const GITHUB_USER = "maulanadityaa";
+const LINKEDIN_URL = "https://www.linkedin.com/in/maulanadityaa/";
+
+const SEED = {
   profile: {
     name: "Muhamad Maulana Zuhad Aditya",
     role: "Java Spring Boot Developer",
@@ -31,9 +24,6 @@ const FALLBACK = {
       { label: "LinkedIn", href: LINKEDIN_URL },
     ],
   },
-
-  // GitHub descriptions are mostly empty. Fill these in to override per repo —
-  // key is the repo name. Anything not listed falls back to the API description.
   repoNotes: {
     "link-shortener-api":
       "URL shortener service with a documented REST API, deployed on Vercel.",
@@ -52,19 +42,14 @@ const FALLBACK = {
     "bookshelf-app": "Bookshelf CRUD app — an early exercise in vanilla JavaScript.",
     "olshop-sepatu":
       "Shoe e-commerce storefront on Laravel + Livewire, with Midtrans payments.",
-  } as Record<string, string>,
-
-  // Repos to keep off the site entirely (throwaways, coursework, joke commits).
-  hidden: ["sha-test", "brain-teaser"] as string[],
-
-  // Repos to pin at the top of the grid, in order. Rest follow by stars, then recency.
+  },
+  hidden: ["sha-test", "brain-teaser"],
   featured: [
     "loan-app-api",
     "zoo-ticket",
     "bank-merchant-api",
     "laundry-app-rest-api",
-  ] as string[],
-
+  ],
   timeline: [
     {
       id: "7b7d3b4e-4d6a-4b9f-8b4f-1e8f2f5f4a10",
@@ -97,8 +82,7 @@ const FALLBACK = {
       org: "Widya Wicara",
       detail: "Manual tested smart-speaker products and reported product issues.",
     },
-  ] as TimelineEntry[],
-
+  ],
   education: {
     school: "University of Brawijaya",
     degree: "Bachelor's degree, Information Technology",
@@ -106,34 +90,28 @@ const FALLBACK = {
   },
 };
 
-type ContentDoc<T> = { _id: string; data: T };
-
-// Never let a DB outage take the page down — fall back to the hardcoded value.
-async function section<K extends keyof typeof FALLBACK>(
-  key: K,
-): Promise<(typeof FALLBACK)[K]> {
+async function main() {
+  const client = new MongoClient(uri);
   try {
-    const database = await db();
-    if (!database) return FALLBACK[key];
-    const doc = await database
-      .collection<ContentDoc<(typeof FALLBACK)[K]>>("content")
-      .findOne({ _id: key });
-    return doc?.data ?? FALLBACK[key];
-  } catch (err) {
-    console.error(`content ${key} failed`, err);
-    return FALLBACK[key];
+    await client.connect();
+    const db = client.db(dbName);
+    const col = db.collection("content");
+
+    for (const [key, value] of Object.entries(SEED)) {
+      await col.updateOne(
+        { _id: key },
+        { $set: { data: value } },
+        { upsert: true }
+      );
+      console.log(`Seeded section: ${key}`);
+    }
+    console.log("Seed complete.");
+  } finally {
+    await client.close();
   }
 }
 
-export const getContent = unstable_cache(
-  async () => ({
-    profile: await section("profile"),
-    timeline: await section("timeline"),
-    education: await section("education"),
-    repoNotes: await section("repoNotes"),
-    featured: await section("featured"),
-    hidden: await section("hidden"),
-  }),
-  ["content"],
-  { revalidate: 3600, tags: ["content"] },
-);
+main().catch((err) => {
+  console.error("Seed failed:", err);
+  process.exit(1);
+});

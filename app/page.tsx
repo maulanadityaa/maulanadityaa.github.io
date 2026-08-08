@@ -5,11 +5,8 @@ import { GithubIcon, LinkedinIcon, Section, Tag, TechMark } from "@/components/u
 import {
   GITHUB_USER,
   LINKEDIN_URL,
-  education,
   experienceSource,
-  featured,
-  profile,
-  timeline,
+  getContent,
 } from "@/lib/content";
 import { LANG_PRIORITY, getProfile, getRepos } from "@/lib/github";
 
@@ -20,16 +17,19 @@ const nav = [
 ];
 
 export default async function Home() {
+  const content = await getContent();
   const [gh, repos] = await Promise.all([
     getProfile(GITHUB_USER),
-    getRepos(GITHUB_USER),
+    getRepos(GITHUB_USER, new Set(content.hidden)),
   ]);
+  const { profile, timeline, education, featured } = content;
 
   // Pinned repos first (in the order listed), then the rest by stars/recency.
   const pinned = featured
     .map((name) => repos.find((r) => r.name === name))
     .filter((r): r is NonNullable<typeof r> => Boolean(r));
   const rest = repos.filter((r) => !featured.includes(r.name));
+  const notes = content.repoNotes;
   const shown = [...pinned, ...rest].slice(0, 6);
 
   // Languages by repo count, but backend ones lead — raw counts would put
@@ -139,7 +139,7 @@ export default async function Home() {
             <ScrollReveal>
               <StaggerList as="ul" className="grid gap-3 sm:grid-cols-2">
                 {shown.map((r) => (
-                  <RepoCard key={r.name} repo={r} />
+                  <RepoCard key={r.name} repo={r} notes={notes} />
                 ))}
               </StaggerList>
             </ScrollReveal>

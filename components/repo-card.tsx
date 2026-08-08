@@ -1,9 +1,14 @@
 import { LangDot, StarIcon, Tag } from "@/components/ui";
-import { repoNotes } from "@/lib/content";
 import { formatDate, titleize, type Repo } from "@/lib/github";
 
-export function RepoCard({ repo }: { repo: Repo }) {
-  const blurb = repoNotes[repo.name] ?? repo.description;
+export function RepoCard({
+  repo,
+  notes = {},
+}: {
+  repo: Repo;
+  notes?: Record<string, string>;
+}) {
+  const blurb = notes[repo.name] ?? repo.description;
 
   return (
     <li>
