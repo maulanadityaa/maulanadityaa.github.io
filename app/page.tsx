@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { RevealSection, ScrollReveal, StaggerList } from "@/components/animated";
 import { RepoCard } from "@/components/repo-card";
-import { Section, Tag, TechMark } from "@/components/ui";
+import { GithubIcon, LinkedinIcon, Section, Tag, TechMark } from "@/components/ui";
 import {
   GITHUB_USER,
   LINKEDIN_URL,
@@ -108,17 +108,17 @@ export default async function Home() {
               href={`https://github.com/${GITHUB_USER}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full border border-line px-4 py-2 text-sm text-muted transition-colors hover:border-muted hover:text-text"
+              className="inline-flex items-center gap-1.5 rounded-full border border-line px-4 py-2 text-sm text-muted transition-colors hover:border-muted hover:text-text"
             >
-              GitHub ↗
+              <GithubIcon /> GitHub
             </a>
             <a
               href={LINKEDIN_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full border border-line px-4 py-2 text-sm text-muted transition-colors hover:border-muted hover:text-text"
+              className="inline-flex items-center gap-1.5 rounded-full border border-line px-4 py-2 text-sm text-muted transition-colors hover:border-muted hover:text-text"
             >
-              LinkedIn ↗
+              <LinkedinIcon /> LinkedIn
             </a>
           </div>
         </RevealSection>
@@ -179,7 +179,7 @@ export default async function Home() {
 
           <StaggerList as="ol" className="mt-10 border-l border-line">
             {timeline.map((t) => (
-              <li key={t.period} className="relative pl-6 pb-8 last:pb-0">
+              <li key={t.id} className="relative pl-6 pb-8 last:pb-0">
                 <span className="absolute left-[-4.5px] top-1.5 h-2 w-2 rounded-full bg-accent" />
                 <p className="font-mono text-[11px] uppercase tracking-widest text-muted">
                   {t.period}
@@ -235,10 +235,11 @@ export default async function Home() {
             <a
               key={s.label}
               href={s.href}
-              className="transition-colors hover:text-text"
+              className="inline-flex items-center gap-1.5 transition-colors hover:text-text"
               rel="noopener noreferrer"
               target="_blank"
             >
+              {s.label === "GitHub" ? <GithubIcon size={14} /> : <LinkedinIcon size={14} />}
               {s.label}
             </a>
           ))}

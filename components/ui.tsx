@@ -3,10 +3,12 @@ import {
   IconBrandCSharp,
   IconBrandCss3,
   IconBrandDocker,
+  IconBrandGithub,
   IconBrandGolang,
   IconBrandHtml5,
   IconBrandJavascript,
   IconBrandKotlin,
+  IconBrandLinkedin,
   IconBrandPhp,
   IconBrandPython,
   IconBrandReact,
@@ -108,4 +110,12 @@ export function LangDot({ lang }: { lang: string }) {
 
 export function StarIcon() {
   return <IconStar aria-hidden size={13} stroke={1.8} className="shrink-0" />;
+}
+
+export function GithubIcon({ size = 16 }: { size?: number }) {
+  return <IconBrandGithub aria-hidden size={size} stroke={1.8} className="shrink-0" />;
+}
+
+export function LinkedinIcon({ size = 16 }: { size?: number }) {
+  return <IconBrandLinkedin aria-hidden size={size} stroke={1.8} className="shrink-0" />;
 }

@@ -50,20 +50,23 @@ export const featured = [
 
 export const timeline = [
   {
-    period: "Aug 2025 — now (SAP Hybris)",
+    id: "7b7d3b4e-4d6a-4b9f-8b4f-1e8f2f5f4a10",
+    period: "Aug 2025 — now",
     role: "SAP Hybris Consultant",
     org: "PT. Astra Graphia Information Technology (AGIT)",
     detail:
       "Working on enterprise commerce systems with Java, Spring Boot, and backend integrations.",
   },
   {
-    period: "Aug 2025 — now (Backend)",
+    id: "f8f7e32e-b0a8-4f7c-9cb3-f5d94d0df841",
+    period: "Aug 2025 — now",
     role: "Back End Developer",
     org: "PT Astra International Tbk",
     detail:
       "Developing backend services and APIs for production systems in an on-site engineering team.",
   },
   {
+    id: "49a76220-5cb2-4422-9fa3-1b8a41a7024d",
     period: "Jan 2024 — May 2024",
     role: "Trainee IT Bootcamp",
     org: "Enigma Camp",
@@ -71,6 +74,7 @@ export const timeline = [
       "Learned RESTful API development with Java Spring Boot, interactive React web development, React Native, clean code, and industry-standard practices.",
   },
   {
+    id: "ace279be-4644-41b1-a9c8-e9ec8d3fd6e1",
     period: "Jun 2021 — Aug 2021",
     role: "Quality Assurance Quality Control",
     org: "Widya Wicara",
