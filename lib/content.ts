@@ -1,5 +1,6 @@
 // Hand-written content. Everything else comes from the GitHub API (lib/github.ts).
 export const GITHUB_USER = "maulanadityaa";
+export const LINKEDIN_URL = "https://www.linkedin.com/in/maulanadityaa/";
 
 export const profile = {
   name: "Maulana Aditya",
@@ -10,7 +11,7 @@ export const profile = {
   email: "hello@example.com",
   socials: [
     { label: "GitHub", href: `https://github.com/${GITHUB_USER}` },
-    { label: "LinkedIn", href: "https://www.linkedin.com/in/maulanadityaa/" },
+    { label: "LinkedIn", href: LINKEDIN_URL },
   ],
 };
 
