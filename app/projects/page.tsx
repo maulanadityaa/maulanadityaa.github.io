@@ -1,14 +1,14 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { RepoCard } from "@/components/repo-card";
-import { GITHUB_USER, profile, getContent } from "@/lib/content";
+import { GITHUB_USER, getContent } from "@/lib/content";
 import { LANG_PRIORITY, getRepos, type Repo } from "@/lib/github";
 import { ScrollReveal, StaggerList } from "@/components/animated";
 
-export const metadata: Metadata = {
-  title: `Projects — ${profile.name}`,
-  description: `Every public repository by ${profile.name}, straight from GitHub.`,
-};
+// export const metadata: Metadata = {
+//   title: `Projects — ${profile.name}`,
+//   description: `Every public repository by ${profile.name}, straight from GitHub.`,
+// };
 
 export default async function Projects() {
   const content = await getContent();
@@ -77,7 +77,7 @@ export default async function Projects() {
       </main>
 
       <footer className="border-t border-line py-8 font-mono text-[11px] text-muted">
-        © 2026 {profile.name}
+        © 2026 {content.profile.name}
       </footer>
     </div>
   );

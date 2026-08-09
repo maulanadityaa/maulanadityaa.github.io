@@ -1,50 +1,51 @@
 import type { ComponentType, ReactNode } from "react";
+import { FaLinkedin } from "react-icons/fa6";
 import {
-  IconBrandCSharp,
-  IconBrandCss3,
-  IconBrandDocker,
-  IconBrandGithub,
-  IconBrandGolang,
-  IconBrandHtml5,
-  IconBrandJavascript,
-  IconBrandKotlin,
-  IconBrandLinkedin,
-  IconBrandPhp,
-  IconBrandPython,
-  IconBrandReact,
-  IconBrandRust,
-  IconBrandTypescript,
-  IconCode,
-  IconCoffee,
-  IconStar,
-} from "@tabler/icons-react";
+  SiCss,
+  SiDart,
+  SiDocker,
+  SiDotnet,
+  SiGithub,
+  SiGnubash,
+  SiGo,
+  SiHtml5,
+  SiJavascript,
+  SiKotlin,
+  SiPhp,
+  SiPython,
+  SiReact,
+  SiRust,
+  SiTypescript,
+} from "react-icons/si";
+import { FaJava } from "react-icons/fa";
+import { VscCode, VscStarFull } from "react-icons/vsc";
 
 type TechIcon = ComponentType<{
   size?: string | number;
-  stroke?: string | number;
   className?: string;
 }>;
 
 const TECH_ICONS: Record<string, TechIcon> = {
-  TypeScript: IconBrandTypescript,
-  JavaScript: IconBrandJavascript,
-  Go: IconBrandGolang,
-  Java: IconCoffee,
-  "C#": IconBrandCSharp,
-  Python: IconBrandPython,
-  Dart: IconCode,
-  HTML: IconBrandHtml5,
-  CSS: IconBrandCss3,
-  Kotlin: IconBrandKotlin,
-  PHP: IconBrandPhp,
-  Rust: IconBrandRust,
-  Docker: IconBrandDocker,
-  React: IconBrandReact,
+  TypeScript: SiTypescript,
+  JavaScript: SiJavascript,
+  Go: SiGo,
+  Java: FaJava,
+  "C#": SiDotnet,
+  Python: SiPython,
+  Dart: SiDart,
+  HTML: SiHtml5,
+  CSS: SiCss,
+  Kotlin: SiKotlin,
+  PHP: SiPhp,
+  Rust: SiRust,
+  Docker: SiDocker,
+  React: SiReact,
+  Shell: SiGnubash,
 };
 
 export function TechMark({ lang }: { lang: string }) {
-  const Icon = TECH_ICONS[lang] ?? IconCode;
-  return <Icon aria-hidden size={14} stroke={1.8} className="shrink-0" />;
+  const Icon = TECH_ICONS[lang] ?? VscCode;
+  return <Icon aria-hidden size={14} className="shrink-0" />;
 }
 
 
@@ -109,13 +110,13 @@ export function LangDot({ lang }: { lang: string }) {
 }
 
 export function StarIcon() {
-  return <IconStar aria-hidden size={13} stroke={1.8} className="shrink-0" />;
+  return <VscStarFull aria-hidden size={13} className="shrink-0 text-[#e3b341]" />;
 }
 
 export function GithubIcon({ size = 16 }: { size?: number }) {
-  return <IconBrandGithub aria-hidden size={size} stroke={1.8} className="shrink-0" />;
+  return <SiGithub aria-hidden size={size} className="shrink-0" />;
 }
 
 export function LinkedinIcon({ size = 16 }: { size?: number }) {
-  return <IconBrandLinkedin aria-hidden size={size} stroke={1.8} className="shrink-0" />;
+  return <FaLinkedin aria-hidden size={size} className="shrink-0 text-[#0A66C2]" />;
 }
