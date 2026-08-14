@@ -1,8 +1,6 @@
 // GitHub data layer. Fetched on the server, cached by Next for `revalidate` seconds.
 // Set GITHUB_TOKEN in .env.local to raise the rate limit from 60/hr to 5000/hr.
 
-import { hidden } from "@/lib/content";
-
 export type Repo = {
   name: string;
   description: string | null;
@@ -88,7 +86,7 @@ function rank(r: Repo): number {
   return (backend ? 2 : 0) + (r.language === "Java" ? 1 : 0);
 }
 
-export async function getRepos(user: string): Promise<Repo[]> {
+export async function getRepos(user: string, hidden: Set<string>): Promise<Repo[]> {
   const repos = await get<Repo[]>(
     `/users/${user}/repos?per_page=100&sort=pushed`,
     [],
@@ -119,8 +117,8 @@ export function titleize(slug: string): string {
 }
 
 export function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("en-US", {
-    month: "short",
-    year: "numeric",
-  });
+  const d = new Date(iso);
+  const month = d.toLocaleString("en-US", { month: "short", timeZone: "UTC" });
+  const year = d.getUTCFullYear();
+  return `${month} ${year}`;
 }

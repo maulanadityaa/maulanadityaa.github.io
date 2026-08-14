@@ -1,16 +1,48 @@
 @import "tailwindcss";
 
-@theme {
-  --color-bg: #0b0b0c;
-  --color-surface: #121214;
-  --color-line: #24242a;
-  --color-text: #f4f4f5;
-  --color-muted: #8e8e98;
-  --color-accent: #f0a868;
-  --color-on-accent: #17120c;
+@custom-variant dark (&:is([data-theme="dark"] *));
 
-  --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+/* Monochromatic Palette:
+   - Slate Grey: #404F68 (Accent)
+   - Silver Grey: #C4C4C4 (Highlight / Muted Dark)
+   - Steel Grey: #777777 (Lines / Subtle Borders)
+   - Charcoal Grey: #333333 (Dark Text / Dark Foundation)
+   - Granite Grey: #4A4A4A (Muted Light / Dark Surface)
+*/
+
+:root,
+:root[data-theme="light"] {
+  --bg: #F3F4F6;
+  --surface: #FFFFFF;
+  --line: #D5D9E0;
+  --text: #333333;
+  --muted: #4A4A4A;
+  --accent: #404F68;
+  --on-accent: #FFFFFF;
+}
+
+:root[data-theme="dark"] {
+  --bg: #1E2127;
+  --surface: #282C34;
+  --line: #4A4A4A;
+  --text: #F3F4F6;
+  --muted: #C4C4C4;
+  --accent: #7D94B5;
+  --on-accent: #FFFFFF;
+}
+
+@theme {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+
+  --font-sans: var(--font-sans), system-ui, sans-serif;
+  --font-mono: var(--font-mono), ui-monospace, monospace;
+  --font-jetbrains: var(--font-jetbrains), ui-monospace, monospace;
 
   --radius-sm: 10px;
   --radius-md: 14px;
@@ -21,35 +53,115 @@
 
 html {
   scroll-behavior: smooth;
+  background-color: var(--bg);
 }
 
 body {
-  background-color: var(--color-bg);
-  color: var(--color-text);
+  background-color: var(--bg);
+  color: var(--text);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
 
-/* faint dot grid — the one visual departure from the reference's flat surface */
-body::before {
-  content: "";
+/* Instant preloader bypass if already loaded in this session */
+html.hide-preloader #initial-preloader {
+  display: none !important;
+}
+
+/* Custom Sleek Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(64, 79, 104, 0.25);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(64, 79, 104, 0.5);
+}
+
+:root[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background-color: rgba(125, 148, 181, 0.28);
+}
+
+:root[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(125, 148, 181, 0.55);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(64, 79, 104, 0.25) transparent;
+}
+
+:root[data-theme="dark"] * {
+  scrollbar-color: rgba(125, 148, 181, 0.28) transparent;
+}
+
+/* Zero-hydration-mismatch scroll reveal animation */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 700ms cubic-bezier(0.22, 1, 0.36, 1), transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Minimalist Clean Texture & Ambient Glow */
+.geometric-bg {
   position: fixed;
   inset: 0;
-  z-index: -1;
-  background-image: radial-gradient(circle at 1px 1px, #ffffff0d 1px, transparent 0);
-  background-size: 28px 28px;
-  mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, #000 20%, transparent 75%);
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.geometric-glow {
+  position: absolute;
+  top: -150px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 750px;
+  height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 30%, rgba(16, 185, 129, 0.1) 0%, rgba(64, 79, 104, 0.08) 45%, transparent 70%);
+  filter: blur(75px);
+}
+
+:root[data-theme="dark"] .geometric-glow {
+  background: radial-gradient(circle, rgba(64, 79, 104, 0.22) 0%, transparent 70%);
+}
+
+.geometric-grid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at 1px 1px, rgba(64, 79, 104, 0.09) 1px, transparent 0);
+  background-size: 24px 24px;
+  mask-image: radial-gradient(ellipse 70% 45% at 50% 0%, #000 15%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 45% at 50% 0%, #000 15%, transparent 75%);
+}
+
+:root[data-theme="dark"] .geometric-grid {
+  background-image: radial-gradient(circle at 1px 1px, rgba(196, 196, 196, 0.07) 1px, transparent 0);
 }
 
 ::selection {
-  background: var(--color-accent);
-  color: var(--color-on-accent);
+  background: var(--accent);
+  color: var(--on-accent);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
+  html {
+    scroll-behavior: auto;
   }
 }
