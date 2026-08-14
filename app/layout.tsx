@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { Geist } from "next/font/google";
 import { getContent } from "@/lib/content";
 import "./globals.css";
+import { cn } from "@/lib/utils";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 export async function generateMetadata(): Promise<Metadata> {
   const { profile } = await getContent();
@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
+    <html lang="en" className={cn("font-sans", geist.variable)} suppressHydrationWarning>
       <body suppressHydrationWarning>
         <a
           href="#main"
@@ -28,9 +28,6 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <div className="fixed right-5 top-4 z-40 sm:right-8">
-          <ThemeToggle />
-        </div>
         {children}
       </body>
     </html>

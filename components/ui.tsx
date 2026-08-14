@@ -1,53 +1,210 @@
 import type { ComponentType, ReactNode } from "react";
-import { FaLinkedin } from "react-icons/fa6";
+import { FaLinkedin, FaJava } from "react-icons/fa6";
+import { TbBrandCSharp } from "react-icons/tb";
 import {
   SiCss,
+  SiCplusplus,
   SiDart,
   SiDocker,
   SiDotnet,
+  SiExpress,
+  SiFlutter,
+  SiGit,
   SiGithub,
   SiGnubash,
   SiGo,
+  SiGraphql,
   SiHtml5,
   SiJavascript,
   SiKotlin,
+  SiKubernetes,
+  SiLaravel,
+  SiLinux,
+  SiMongodb,
+  SiMysql,
+  SiNextdotjs,
+  SiNodedotjs,
   SiPhp,
+  SiPostgresql,
+  SiPostman,
+  SiPrisma,
   SiPython,
   SiReact,
+  SiRedis,
   SiRust,
+  SiSpring,
+  SiSpringboot,
+  SiSqlite,
+  SiSwagger,
+  SiTailwindcss,
   SiTypescript,
+  SiVuedotjs,
 } from "react-icons/si";
-import { FaJava } from "react-icons/fa";
 import { VscCode, VscStarFull } from "react-icons/vsc";
 
 type TechIcon = ComponentType<{
   size?: string | number;
   className?: string;
+  style?: React.CSSProperties;
 }>;
 
+// Comprehensive mapping of language & technology aliases to official icons
 const TECH_ICONS: Record<string, TechIcon> = {
-  TypeScript: SiTypescript,
-  JavaScript: SiJavascript,
-  Go: SiGo,
-  Java: FaJava,
-  "C#": SiDotnet,
-  Python: SiPython,
-  Dart: SiDart,
-  HTML: SiHtml5,
-  CSS: SiCss,
-  Kotlin: SiKotlin,
-  PHP: SiPhp,
-  Rust: SiRust,
-  Docker: SiDocker,
-  React: SiReact,
-  Shell: SiGnubash,
+  // Programming Languages
+  java: FaJava,
+  go: SiGo,
+  golang: SiGo,
+  typescript: SiTypescript,
+  ts: SiTypescript,
+  javascript: SiJavascript,
+  js: SiJavascript,
+  python: SiPython,
+  py: SiPython,
+  "c#": TbBrandCSharp,
+  csharp: TbBrandCSharp,
+  "c++": SiCplusplus,
+  cpp: SiCplusplus,
+  php: SiPhp,
+  rust: SiRust,
+  kotlin: SiKotlin,
+  dart: SiDart,
+  html: SiHtml5,
+  html5: SiHtml5,
+  css: SiCss,
+  css3: SiCss,
+  shell: SiGnubash,
+  bash: SiGnubash,
+  sh: SiGnubash,
+  zsh: SiGnubash,
+
+  // Frameworks & Libraries
+  spring: SiSpring,
+  "spring boot": SiSpringboot,
+  springboot: SiSpringboot,
+  "spring-boot": SiSpringboot,
+  react: SiReact,
+  "react.js": SiReact,
+  "react native": SiReact,
+  "react-native": SiReact,
+  "next.js": SiNextdotjs,
+  nextjs: SiNextdotjs,
+  vue: SiVuedotjs,
+  "vue.js": SiVuedotjs,
+  laravel: SiLaravel,
+  flutter: SiFlutter,
+  node: SiNodedotjs,
+  "node.js": SiNodedotjs,
+  nodejs: SiNodedotjs,
+  express: SiExpress,
+  "express.js": SiExpress,
+  ".net": SiDotnet,
+  dotnet: SiDotnet,
+  tailwind: SiTailwindcss,
+  tailwindcss: SiTailwindcss,
+  "tailwind css": SiTailwindcss,
+
+  // Databases, DevOps & Tools
+  mongodb: SiMongodb,
+  mongo: SiMongodb,
+  postgresql: SiPostgresql,
+  postgres: SiPostgresql,
+  mysql: SiMysql,
+  redis: SiRedis,
+  sqlite: SiSqlite,
+  docker: SiDocker,
+  kubernetes: SiKubernetes,
+  k8s: SiKubernetes,
+  git: SiGit,
+  linux: SiLinux,
+  postman: SiPostman,
+  swagger: SiSwagger,
+  graphql: SiGraphql,
+  prisma: SiPrisma,
 };
 
-export function TechMark({ lang }: { lang: string }) {
-  const Icon = TECH_ICONS[lang] ?? VscCode;
-  return <Icon aria-hidden size={14} className="shrink-0" />;
+// Official brand colors with strong contrast in both light and dark themes
+const TECH_COLORS: Record<string, string> = {
+  java: "#EA2D2E",
+  go: "#00ADD8",
+  golang: "#00ADD8",
+  typescript: "#3178C6",
+  ts: "#3178C6",
+  javascript: "#F7DF1E",
+  js: "#F7DF1E",
+  python: "#3776AB",
+  py: "#3776AB",
+  "c#": "#68217A",
+  csharp: "#68217A",
+  "c++": "#00599C",
+  cpp: "#00599C",
+  php: "#777BB4",
+  rust: "#DEA584",
+  kotlin: "#7F52FF",
+  dart: "#0175C2",
+  html: "#E34F26",
+  html5: "#E34F26",
+  css: "#1572B6",
+  css3: "#1572B6",
+  shell: "#4EAA25",
+  bash: "#4EAA25",
+  sh: "#4EAA25",
+
+  // Frameworks
+  spring: "#6DB33F",
+  "spring boot": "#6DB33F",
+  springboot: "#6DB33F",
+  "spring-boot": "#6DB33F",
+  react: "#61DAFB",
+  "react native": "#61DAFB",
+  "next.js": "currentColor",
+  nextjs: "currentColor",
+  vue: "#4FC08D",
+  laravel: "#FF2D20",
+  flutter: "#02569B",
+  node: "#5FA04E",
+  "node.js": "#5FA04E",
+  express: "currentColor",
+  ".net": "#512BD4",
+  dotnet: "#512BD4",
+  tailwind: "#06B6D4",
+  tailwindcss: "#06B6D4",
+
+  // Databases & Tools
+  mongodb: "#47A248",
+  mongo: "#47A248",
+  postgresql: "#4169E1",
+  postgres: "#4169E1",
+  mysql: "#4479A1",
+  redis: "#DC382D",
+  sqlite: "#003B57",
+  docker: "#2496ED",
+  kubernetes: "#326CE5",
+  git: "#F05032",
+  linux: "#FCC624",
+  postman: "#FF6C37",
+  swagger: "#85EA2D",
+  graphql: "#E10098",
+  prisma: "#2D3748",
+};
+
+export function getTechInfo(name: string) {
+  const key = name.trim().toLowerCase();
+  const Icon = TECH_ICONS[key] ?? VscCode;
+  const color = TECH_COLORS[key];
+  return { Icon, color };
 }
 
+export function TechMark({ lang, size = 14 }: { lang: string; size?: number }) {
+  const { Icon, color } = getTechInfo(lang);
+  return (
+    <span
+      style={color ? { color } : undefined}
+      className="inline-flex shrink-0 items-center justify-center"
+    >
+      <Icon aria-hidden size={size} />
+    </span>
+  );
+}
 
 export function Section({
   id,
@@ -73,38 +230,30 @@ export function Section({
   );
 }
 
-export function Tag({ children, icon }: { children: ReactNode; icon?: ReactNode }) {
+export function Tag({
+  children,
+  icon,
+}: {
+  children: ReactNode;
+  icon?: ReactNode;
+}) {
+  // If no explicit icon provided and children is a string, automatically match tech icon
+  const content = typeof children === "string" ? children : null;
+  const techIcon = icon ?? (content ? <TechMark lang={content} size={12} /> : null);
+
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-line px-2.5 py-0.5 font-mono text-[11px] text-muted">
-      {icon}
-      {children}
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface/60 px-2.5 py-0.5 font-mono text-[11px] text-muted transition-colors hover:border-accent/40 hover:text-text">
+      {techIcon}
+      <span>{children}</span>
     </span>
   );
 }
 
-// Language dot colours, roughly GitHub's. Unknown languages fall back to muted.
-const LANG_COLORS: Record<string, string> = {
-  TypeScript: "#3178c6",
-  JavaScript: "#f1e05a",
-  Go: "#00add8",
-  Java: "#b07219",
-  "C#": "#68217a",
-  Python: "#3572a5",
-  Dart: "#00b4ab",
-  HTML: "#e34c26",
-  CSS: "#563d7c",
-  Kotlin: "#a97bff",
-  PHP: "#4f5d95",
-  Shell: "#89e051",
-};
-
 export function LangDot({ lang }: { lang: string }) {
   return (
     <span className="inline-flex items-center gap-1.5 font-mono text-[11px] text-muted">
-      <span className="text-accent" style={{ color: LANG_COLORS[lang] ?? "var(--color-accent)" }}>
-        <TechMark lang={lang} />
-      </span>
-      {lang}
+      <TechMark lang={lang} size={13} />
+      <span>{lang}</span>
     </span>
   );
 }

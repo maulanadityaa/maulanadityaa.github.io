@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { RevealSection, ScrollReveal, StaggerList } from "@/components/animated";
 import { RepoCard } from "@/components/repo-card";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { GithubIcon, LinkedinIcon, Section, Tag, TechMark } from "@/components/ui";
 import {
   GITHUB_USER,
@@ -55,12 +56,13 @@ export default async function Home() {
         <a href="#main" className="font-mono text-sm text-text">
           ma<span className="text-accent">.</span>
         </a>
-        <nav className="flex gap-5 text-sm text-muted">
+        <nav className="flex items-center gap-5 text-sm text-muted">
           {nav.map((n) => (
             <a key={n.href} href={n.href} className="transition-colors hover:text-text">
               {n.label}
             </a>
           ))}
+          <ThemeToggle />
         </nav>
       </header>
 

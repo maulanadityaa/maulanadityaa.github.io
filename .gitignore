@@ -9,7 +9,7 @@ next-env.d.ts
 .DS_Store
 Thumbs.db
 
-# Claude Code / local agent dir
-.claude/settings.local.json
-.claude/worktrees/
-.claude/state/
+# Agent configs & skills
+.agents/
+.claude/
+skills-lock.json

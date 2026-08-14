@@ -1,15 +1,57 @@
 @import "tailwindcss";
 
-@theme {
-  --color-bg: #c4c4c4;
-  --color-surface: #c4c4c4;
-  --color-line: #777777;
-  --color-text: #333333;
-  --color-muted: #4a4a4a;
-  --color-accent: #404f68;
-  --color-on-accent: #ffffff;
+@custom-variant dark (&:is([data-theme="dark"] *));
 
-  --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
+/* Monochromatic Palette:
+   - Slate Grey: #404F68 (Accent)
+   - Silver Grey: #C4C4C4 (Highlight / Muted Dark)
+   - Steel Grey: #777777 (Lines / Subtle Borders)
+   - Charcoal Grey: #333333 (Dark Text / Dark Foundation)
+   - Granite Grey: #4A4A4A (Muted Light / Dark Surface)
+*/
+
+:root {
+  --bg: #F3F4F6;
+  --surface: #FFFFFF;
+  --line: #D5D9E0;
+  --text: #333333;
+  --muted: #4A4A4A;
+  --accent: #404F68;
+  --on-accent: #FFFFFF;
+}
+
+:root[data-theme="dark"] {
+  --bg: #1E2127;
+  --surface: #282C34;
+  --line: #4A4A4A;
+  --text: #F3F4F6;
+  --muted: #C4C4C4;
+  --accent: #7D94B5;
+  --on-accent: #FFFFFF;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1E2127;
+    --surface: #282C34;
+    --line: #4A4A4A;
+    --text: #F3F4F6;
+    --muted: #C4C4C4;
+    --accent: #7D94B5;
+    --on-accent: #FFFFFF;
+  }
+}
+
+@theme {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+
+  --font-sans: var(--font-sans, Inter, ui-sans-serif, system-ui, sans-serif);
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
   --radius-sm: 10px;
@@ -21,11 +63,12 @@
 
 html {
   scroll-behavior: smooth;
-  background-color: var(--color-bg);
+  background-color: var(--bg);
 }
 
 body {
-  color: var(--color-text);
+  background-color: var(--bg);
+  color: var(--text);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
@@ -36,58 +79,31 @@ body::before {
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background-image: radial-gradient(circle at 1px 1px, rgb(0 0 0 / 0.15) 1px, transparent 0),
-    radial-gradient(ellipse 85% 55% at 50% 0%, rgb(64 79 104 / 0.15), transparent 70%);
+  background-image: radial-gradient(circle at 1px 1px, rgb(64 79 104 / 0.1) 1px, transparent 0),
+    radial-gradient(ellipse 85% 55% at 50% 0%, rgb(64 79 104 / 0.12), transparent 70%);
   background-size: 24px 24px, auto;
   mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, #000 20%, transparent 75%);
 }
 
-::selection {
-  background: var(--color-accent);
-  color: var(--color-on-accent);
-}
-
-:root[data-theme="dark"] {
-  --color-bg: #333333;
-  --color-surface: #4a4a4a;
-  --color-line: #777777;
-  --color-text: #ffffff;
-  --color-muted: #c4c4c4;
-  --color-accent: #c4c4c4;
-  --color-on-accent: #333333;
-}
-
 :root[data-theme="dark"] body::before {
-  background-image: radial-gradient(circle at 1px 1px, rgb(196 196 196 / 0.1) 1px, transparent 0),
-    radial-gradient(ellipse 85% 55% at 50% 0%, rgb(196 196 196 / 0.08), transparent 70%);
+  background-image: radial-gradient(circle at 1px 1px, rgb(196 196 196 / 0.07) 1px, transparent 0),
+    radial-gradient(ellipse 85% 55% at 50% 0%, rgb(64 79 104 / 0.25), transparent 70%);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --color-bg: #333333;
-    --color-surface: #4a4a4a;
-    --color-line: #777777;
-    --color-text: #ffffff;
-    --color-muted: #c4c4c4;
-    --color-accent: #c4c4c4;
-    --color-on-accent: #333333;
-  }
-
   :root:not([data-theme="light"]) body::before {
-    background-image: radial-gradient(circle at 1px 1px, rgb(196 196 196 / 0.1) 1px, transparent 0),
-      radial-gradient(ellipse 85% 55% at 50% 0%, rgb(196 196 196 / 0.08), transparent 70%);
+    background-image: radial-gradient(circle at 1px 1px, rgb(196 196 196 / 0.07) 1px, transparent 0),
+      radial-gradient(ellipse 85% 55% at 50% 0%, rgb(64 79 104 / 0.25), transparent 70%);
   }
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
   }
 }

@@ -1,52 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Moon, Sun } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-const STORAGE_KEY = "portfolio-theme";
-
-type Theme = "light" | "dark";
 
 interface ThemeToggleProps {
   className?: string;
 }
 
 export function ThemeToggle({ className }: ThemeToggleProps) {
-  const [theme, setTheme] = useState<Theme>("light");
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    const saved = window.localStorage.getItem(STORAGE_KEY) as Theme | null;
-    const preferred = window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
-    const initial = saved === "dark" || saved === "light" ? saved : preferred;
-    document.documentElement.dataset.theme = initial;
-    setTheme(initial);
-    setMounted(true);
-  }, []);
-
-  const toggle = () => {
-    const next = theme === "dark" ? "light" : "dark";
-    document.documentElement.dataset.theme = next;
-    window.localStorage.setItem(STORAGE_KEY, next);
-    setTheme(next);
-  };
-
-  // Render skeleton with exact dimensions during SSR to avoid hydration mismatch
-  if (!mounted) {
-    return (
-      <div
-        className={cn(
-          "h-8 w-16 rounded-full border border-line bg-surface",
-          className
-        )}
-      />
-    );
-  }
-
-  const isDark = theme === "dark";
+  const [isDark, setIsDark] = useState(true);
 
   return (
     <button
@@ -54,15 +17,13 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
       aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
       className={cn(
         "relative grid h-8 w-16 grid-cols-2 cursor-pointer select-none items-center rounded-full border p-[3px]",
-        isDark
-          ? "border-[#4A4A4A] bg-[#282C34]"
-          : "border-[#D5D9E0] bg-[#FFFFFF]",
+        isDark ? "border-[#4A4A4A] bg-[#282C34]" : "border-[#D5D9E0] bg-[#FFFFFF]",
         className
       )}
       style={{
         transition: "background-color 300ms ease, border-color 300ms ease",
       }}
-      onClick={toggle}
+      onClick={() => setIsDark(!isDark)}
     >
       {/* Mathematically centered active sliding pill */}
       <span
