@@ -10,6 +10,7 @@ import {
   getContent,
 } from "@/lib/content";
 import { LANG_PRIORITY, getProfile, getRepos } from "@/lib/github";
+import { TbArrowRight, TbArrowUpRight } from "react-icons/tb";
 
 const nav = [
   { href: "#work", label: "Work" },
@@ -50,12 +51,23 @@ export default async function Home() {
     })
     .map(([lang]) => lang);
 
-  // Find current active role from database timeline
+  // Find active role from database timeline
   const currentJob = timeline.find(
     (t) =>
       t.period.toLowerCase().includes("present") ||
       t.period.toLowerCase().includes("now"),
   );
+
+  // Short company name to ensure the hero badge stays on one sleek line
+  const companyBadge = currentJob
+    ? currentJob.org.includes("(AGIT)")
+      ? "AGIT"
+      : currentJob.org.replace(/^PT\s+/i, "").split(" ")[0]
+    : "";
+
+  const statusBadgeText = currentJob
+    ? `${currentJob.role} @ ${companyBadge}`
+    : profile.role;
 
   return (
     <div className="mx-auto max-w-4xl px-5 sm:px-8">
@@ -83,16 +95,14 @@ export default async function Home() {
           <div className="grid gap-8 md:grid-cols-12 md:items-center">
             {/* Left Column: Bio & CTAs */}
             <div className="md:col-span-7">
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-line/80 bg-surface/70 px-3 py-1 font-mono text-xs text-accent backdrop-blur-sm transition-all duration-300 hover:border-accent/40 hover:bg-surface">
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-line bg-surface/80 px-3 py-1 font-mono text-xs text-accent backdrop-blur-sm transition-all duration-300 hover:border-accent/40">
                 <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
                 </span>
-                <span>
-                  {currentJob
-                    ? `${currentJob.role} · ${currentJob.org}`
-                    : `${profile.role} · ${profile.location}`}
-                </span>
+                <span className="font-medium">{statusBadgeText}</span>
+                <span className="text-muted/50">·</span>
+                <span className="text-muted">{profile.location.split(",")[0]}, ID</span>
               </div>
 
               <h1 className="text-3xl font-semibold leading-tight tracking-tight sm:text-4xl lg:text-[40px]">
@@ -106,16 +116,19 @@ export default async function Home() {
               <div className="mt-6 flex flex-wrap gap-2.5">
                 <a
                   href={`mailto:${profile.email}`}
-                  className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-accent px-4.5 py-2 text-sm font-medium text-on-accent shadow-md shadow-accent/15 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/25 active:translate-y-0 active:scale-95"
+                  className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-accent px-4.5 py-2.5 text-sm font-medium text-on-accent shadow-md shadow-accent/15 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/25 active:translate-y-0 active:scale-95"
                 >
                   <span>Get in touch</span>
-                  <span className="transition-transform duration-200 group-hover:translate-x-0.5">→</span>
+                  <TbArrowRight
+                    size={15}
+                    className="transition-transform duration-200 group-hover:translate-x-0.5"
+                  />
                 </a>
                 <a
                   href={`https://github.com/${GITHUB_USER}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/50 px-3.5 py-2 text-sm text-muted backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-muted hover:bg-surface hover:text-text hover:shadow-sm"
+                  className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/50 px-3.5 py-2.5 text-sm text-muted backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-muted hover:bg-surface hover:text-text hover:shadow-sm"
                 >
                   <GithubIcon /> GitHub
                 </a>
@@ -123,27 +136,27 @@ export default async function Home() {
                   href={LINKEDIN_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/50 px-3.5 py-2 text-sm text-muted backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-muted hover:bg-surface hover:text-text hover:shadow-sm"
+                  className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/50 px-3.5 py-2.5 text-sm text-muted backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-muted hover:bg-surface hover:text-text hover:shadow-sm"
                 >
                   <LinkedinIcon /> LinkedIn
                 </a>
               </div>
             </div>
 
-            {/* Right Column: Developer Info Card / Terminal Widget */}
+            {/* Right Column: Sleek Developer Card */}
             <div className="md:col-span-5">
-              <div className="relative rounded-xl border border-line bg-surface/80 p-5 shadow-lg shadow-black/5 backdrop-blur transition-all duration-300 hover:border-accent/40 hover:shadow-accent/5">
-                {/* Terminal Header */}
+              <div className="relative rounded-2xl border border-line bg-surface/90 p-5 shadow-xl shadow-black/5 backdrop-blur-md transition-all duration-300 hover:border-accent/40 hover:shadow-accent/5">
+                {/* Terminal Header Bar */}
                 <div className="flex items-center justify-between border-b border-line/60 pb-3 font-mono text-[11px] text-muted">
                   <div className="flex items-center gap-1.5">
-                    <span className="h-2.5 w-2.5 rounded-full bg-[#EA2D2E]/70" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-[#F59E0B]/70" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-[#10B981]/70" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-[#EF4444]/80" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-[#F59E0B]/80" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-[#10B981]/80" />
                   </div>
                   <span className="text-[10px] text-muted/70">developer.profile</span>
                 </div>
 
-                {/* Card Fields */}
+                {/* Card Body */}
                 <div className="mt-3.5 space-y-3 font-mono text-xs">
                   <div>
                     <span className="text-[11px] text-muted/60">// current role</span>
@@ -153,7 +166,6 @@ export default async function Home() {
                     {currentJob && (
                       <p className="text-[11px] text-muted">
                         {currentJob.org}
-                        {currentJob.locationType && ` · ${currentJob.locationType}`}
                       </p>
                     )}
                   </div>
@@ -169,11 +181,11 @@ export default async function Home() {
 
                   <div>
                     <span className="text-[11px] text-muted/60">// live stats</span>
-                    <div className="mt-1 flex items-center gap-2.5 text-text">
-                      <span className="rounded border border-line bg-bg/70 px-2 py-0.5 text-[11px]">
+                    <div className="mt-1 flex items-center gap-2 text-text">
+                      <span className="rounded-md border border-line bg-bg/70 px-2.5 py-1 text-[11px]">
                         <strong className="text-accent">{gh?.public_repos ?? 41}</strong> repos
                       </span>
-                      <span className="rounded border border-line bg-bg/70 px-2 py-0.5 text-[11px]">
+                      <span className="rounded-md border border-line bg-bg/70 px-2.5 py-1 text-[11px]">
                         <strong className="text-accent">{gh?.followers ?? 10}</strong> followers
                       </span>
                     </div>
@@ -204,7 +216,10 @@ export default async function Home() {
               className="group shrink-0 inline-flex items-center gap-1 font-mono text-[11px] normal-case tracking-normal text-accent transition-opacity hover:opacity-80"
             >
               <span>All {repos.length}</span>
-              <span className="transition-transform duration-200 group-hover:translate-x-0.5">→</span>
+              <TbArrowRight
+                size={13}
+                className="transition-transform duration-200 group-hover:translate-x-0.5"
+              />
             </Link>
           }
         >
@@ -263,8 +278,8 @@ export default async function Home() {
                 >
                   {isCurrent ? (
                     <span className="absolute left-[-5px] top-1.5 flex h-2.5 w-2.5">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
-                      <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-accent" />
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                      <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
                     </span>
                   ) : (
                     <span className="absolute left-[-4.5px] top-1.5 h-2 w-2 rounded-full bg-accent/60 transition-colors group-hover:bg-accent" />
@@ -307,10 +322,13 @@ export default async function Home() {
             href={experienceSource}
             target="_blank"
             rel="noopener noreferrer"
-            className="group mt-5 inline-flex items-center gap-1 font-mono text-[11px] text-accent transition-opacity hover:opacity-80"
+            className="group mt-5 inline-flex items-center gap-1.5 font-mono text-[11px] text-accent transition-opacity hover:opacity-80"
           >
             <span>View full experience on LinkedIn</span>
-            <span className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+            <TbArrowUpRight
+              size={13}
+              className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            />
           </a>
 
           <ScrollReveal className="mt-8 border-t border-line pt-6">
@@ -334,7 +352,10 @@ export default async function Home() {
               className="group mt-4 inline-flex items-center gap-1.5 font-mono text-sm text-accent transition-opacity hover:opacity-80"
             >
               <span>{profile.email}</span>
-              <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
+              <TbArrowRight
+                size={15}
+                className="transition-transform duration-200 group-hover:translate-x-1"
+              />
             </a>
           </ScrollReveal>
         </Section>

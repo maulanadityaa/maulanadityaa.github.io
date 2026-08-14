@@ -4,6 +4,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { GITHUB_USER, getContent } from "@/lib/content";
 import { LANG_PRIORITY, getRepos, type Repo } from "@/lib/github";
 import { ScrollReveal, StaggerList } from "@/components/animated";
+import { TbArrowLeft } from "react-icons/tb";
 
 export default async function Projects() {
   const content = await getContent();
@@ -26,7 +27,7 @@ export default async function Projects() {
   );
 
   return (
-    <div className="mx-auto max-w-3xl px-5 sm:px-8">
+    <div className="mx-auto max-w-4xl px-5 sm:px-8">
       <header className="sticky top-0 z-40 -mx-5 flex items-center justify-between border-b border-line/60 bg-bg/80 px-5 py-4 backdrop-blur-md sm:-mx-8 sm:px-8">
         <Link href="/" className="group font-mono text-sm font-semibold tracking-tight text-text">
           ma<span className="inline-block text-accent transition-transform duration-300 group-hover:scale-150 group-hover:rotate-12">.</span>
@@ -34,9 +35,12 @@ export default async function Projects() {
         <div className="flex items-center gap-5">
           <Link
             href="/"
-            className="group flex items-center gap-1 text-sm text-muted transition-colors hover:text-text"
+            className="group flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-text"
           >
-            <span className="transition-transform duration-200 group-hover:-translate-x-1">←</span>
+            <TbArrowLeft
+              size={15}
+              className="transition-transform duration-200 group-hover:-translate-x-1"
+            />
             <span>Back</span>
           </Link>
           <ThemeToggle />

@@ -1,5 +1,6 @@
 import { LangDot, StarIcon, Tag } from "@/components/ui";
 import { formatDate, titleize, type Repo } from "@/lib/github";
+import { TbArrowUpRight } from "react-icons/tb";
 
 export function RepoCard({
   repo,
@@ -61,9 +62,10 @@ export function RepoCard({
               className="group/live relative z-10 ml-auto inline-flex items-center gap-1 font-mono text-[11px] font-medium text-accent transition-all duration-200 hover:opacity-80"
             >
               <span>Live</span>
-              <span className="transition-transform duration-200 group-hover/live:translate-x-0.5 group-hover/live:-translate-y-0.5">
-                ↗
-              </span>
+              <TbArrowUpRight
+                size={13}
+                className="transition-transform duration-200 group-hover/live:translate-x-0.5 group-hover/live:-translate-y-0.5"
+              />
             </a>
           )}
         </div>
