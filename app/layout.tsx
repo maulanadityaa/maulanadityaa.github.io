@@ -30,6 +30,14 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: `${profile.name} — ${profile.role}`,
     description: profile.tagline,
+    icons: {
+      icon: [
+        { url: "/icon.svg", type: "image/svg+xml" },
+        { url: "/favicon.svg", type: "image/svg+xml" },
+      ],
+      shortcut: "/icon.svg",
+      apple: "/icon.svg",
+    },
   };
 }
 
