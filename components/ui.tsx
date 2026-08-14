@@ -1,6 +1,6 @@
 import type { ComponentType, ReactNode } from "react";
 import { FaLinkedin, FaJava } from "react-icons/fa6";
-import { TbBrandCSharp } from "react-icons/tb";
+import { TbBrandCSharp, TbApi, TbServer, TbBug, TbFlask } from "react-icons/tb";
 import {
   SiCss,
   SiCplusplus,
@@ -32,6 +32,7 @@ import {
   SiReact,
   SiRedis,
   SiRust,
+  SiSap,
   SiSpring,
   SiSpringboot,
   SiSqlite,
@@ -50,7 +51,7 @@ type TechIcon = ComponentType<{
 
 // Comprehensive mapping of language & technology aliases to official icons
 const TECH_ICONS: Record<string, TechIcon> = {
-  // Programming Languages
+  // Programming & Template Languages
   java: FaJava,
   go: SiGo,
   golang: SiGo,
@@ -76,8 +77,13 @@ const TECH_ICONS: Record<string, TechIcon> = {
   bash: SiGnubash,
   sh: SiGnubash,
   zsh: SiGnubash,
+  blade: SiLaravel,
+  ejs: SiJavascript,
 
-  // Frameworks & Libraries
+  // Frameworks & Enterprise
+  sap: SiSap,
+  "sap hybris": SiSap,
+  hybris: SiSap,
   spring: SiSpring,
   "spring boot": SiSpringboot,
   springboot: SiSpringboot,
@@ -103,7 +109,22 @@ const TECH_ICONS: Record<string, TechIcon> = {
   tailwindcss: SiTailwindcss,
   "tailwind css": SiTailwindcss,
 
-  // Databases, DevOps & Tools
+  // Architecture & APIs
+  api: TbApi,
+  "rest api": TbApi,
+  "restful api": TbApi,
+  rest: TbApi,
+  microservices: TbServer,
+  microservice: TbServer,
+  server: TbServer,
+
+  // Testing & QA
+  qa: TbBug,
+  "quality assurance": TbBug,
+  testing: TbFlask,
+  test: TbFlask,
+
+  // Databases & DevOps
   mongodb: SiMongodb,
   mongo: SiMongodb,
   postgresql: SiPostgresql,
@@ -148,8 +169,13 @@ const TECH_COLORS: Record<string, string> = {
   shell: "#4EAA25",
   bash: "#4EAA25",
   sh: "#4EAA25",
+  blade: "#FF2D20",
+  ejs: "#B4CA65",
 
-  // Frameworks
+  // Frameworks & Enterprise
+  sap: "#008FD3",
+  "sap hybris": "#008FD3",
+  hybris: "#008FD3",
   spring: "#6DB33F",
   "spring boot": "#6DB33F",
   springboot: "#6DB33F",
@@ -168,6 +194,21 @@ const TECH_COLORS: Record<string, string> = {
   dotnet: "#512BD4",
   tailwind: "#06B6D4",
   tailwindcss: "#06B6D4",
+
+  // Architecture & APIs
+  api: "#0284C7",
+  "rest api": "#0284C7",
+  "restful api": "#0284C7",
+  rest: "#0284C7",
+  microservices: "#3B82F6",
+  microservice: "#3B82F6",
+  server: "#3B82F6",
+
+  // Testing & QA
+  qa: "#EF4444",
+  "quality assurance": "#EF4444",
+  testing: "#8B5CF6",
+  test: "#8B5CF6",
 
   // Databases & Tools
   mongodb: "#47A248",
@@ -239,7 +280,7 @@ export function Tag({
 }) {
   // If no explicit icon provided and children is a string, automatically match tech icon
   const content = typeof children === "string" ? children : null;
-  const techIcon = icon ?? (content ? <TechMark lang={content} size={12} /> : null);
+  const techIcon = icon ?? (content ? <TechMark lang={content} size={13} /> : null);
 
   return (
     <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface/60 px-2.5 py-0.5 font-mono text-[11px] text-muted transition-colors hover:border-accent/40 hover:text-text">

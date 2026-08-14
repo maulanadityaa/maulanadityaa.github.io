@@ -15,7 +15,11 @@ export type TimelineEntry = {
   period: string;
   role: string;
   org: string;
+  employmentType?: string;
+  location?: string;
+  locationType?: "On-site" | "Hybrid" | "Remote" | string;
   detail: string;
+  skills?: string[];
 };
 
 const FALLBACK = {
@@ -68,34 +72,50 @@ const FALLBACK = {
   timeline: [
     {
       id: "7b7d3b4e-4d6a-4b9f-8b4f-1e8f2f5f4a10",
-      period: "Aug 2025 — now",
+      period: "Aug 2025 — Present",
       role: "SAP Hybris Consultant",
       org: "PT. Astra Graphia Information Technology (AGIT)",
+      employmentType: "Full-time",
+      location: "North Jakarta, Jakarta, Indonesia",
+      locationType: "On-site",
       detail:
         "Working on enterprise commerce systems with Java, Spring Boot, and backend integrations.",
+      skills: ["Java", "Spring Boot", "SAP Hybris"],
     },
     {
       id: "f8f7e32e-b0a8-4f7c-9cb3-f5d94d0df841",
-      period: "Aug 2025 — now",
+      period: "Aug 2025 — Present",
       role: "Back End Developer",
       org: "PT Astra International Tbk",
+      employmentType: "Full-time",
+      location: "North Jakarta, Jakarta, Indonesia",
+      locationType: "On-site",
       detail:
         "Developing backend services and APIs for production systems in an on-site engineering team.",
+      skills: ["Java", "Spring Boot", "REST API", "Microservices"],
     },
     {
       id: "49a76220-5cb2-4422-9fa3-1b8a41a7024d",
       period: "Jan 2024 — May 2024",
       role: "Trainee IT Bootcamp",
       org: "Enigma Camp",
+      employmentType: "Contract",
+      location: "Malang, East Java, Indonesia",
+      locationType: "On-site",
       detail:
-        "Learned RESTful API development with Java Spring Boot, interactive React web development, React Native, clean code, and industry-standard practices.",
+        "Learning RESTful API development with Java Spring Boot. Exploring interactive and responsive web development with React.",
+      skills: ["Java", "Spring Boot", "JavaScript", "React", "React Native"],
     },
     {
       id: "ace279be-4644-41b1-a9c8-e9ec8d3fd6e1",
       period: "Jun 2021 — Aug 2021",
       role: "Quality Assurance Quality Control",
       org: "Widya Wicara",
-      detail: "Manual tested smart-speaker products and reported product issues.",
+      employmentType: "Internship",
+      location: "Yogyakarta, Indonesia",
+      locationType: "On-site",
+      detail: "Manual tester product smart speaker and reported product issues.",
+      skills: ["QA", "Testing"],
     },
   ] as TimelineEntry[],
 
@@ -125,15 +145,26 @@ async function section<K extends keyof typeof FALLBACK>(
   }
 }
 
-export const getContent = unstable_cache(
-  async () => ({
+async function fetchContent() {
+  return {
     profile: await section("profile"),
     timeline: await section("timeline"),
     education: await section("education"),
     repoNotes: await section("repoNotes"),
     featured: await section("featured"),
     hidden: await section("hidden"),
-  }),
+  };
+}
+
+const getCachedContent = unstable_cache(
+  fetchContent,
   ["content"],
   { revalidate: 3600, tags: ["content"] },
 );
+
+export const getContent = () => {
+  if (process.env.NODE_ENV === "development") {
+    return fetchContent();
+  }
+  return getCachedContent();
+};

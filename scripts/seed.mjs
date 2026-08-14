@@ -53,34 +53,50 @@ const SEED = {
   timeline: [
     {
       id: "7b7d3b4e-4d6a-4b9f-8b4f-1e8f2f5f4a10",
-      period: "Aug 2025 — now",
+      period: "Aug 2025 — Present",
       role: "SAP Hybris Consultant",
       org: "PT. Astra Graphia Information Technology (AGIT)",
+      employmentType: "Full-time",
+      location: "North Jakarta, Jakarta, Indonesia",
+      locationType: "On-site",
       detail:
         "Working on enterprise commerce systems with Java, Spring Boot, and backend integrations.",
+      skills: ["Java", "Spring Boot", "SAP Hybris"],
     },
     {
       id: "f8f7e32e-b0a8-4f7c-9cb3-f5d94d0df841",
-      period: "Aug 2025 — now",
+      period: "Aug 2025 — Present",
       role: "Back End Developer",
       org: "PT Astra International Tbk",
+      employmentType: "Full-time",
+      location: "North Jakarta, Jakarta, Indonesia",
+      locationType: "On-site",
       detail:
         "Developing backend services and APIs for production systems in an on-site engineering team.",
+      skills: ["Java", "Spring Boot", "REST API", "Microservices"],
     },
     {
       id: "49a76220-5cb2-4422-9fa3-1b8a41a7024d",
       period: "Jan 2024 — May 2024",
       role: "Trainee IT Bootcamp",
       org: "Enigma Camp",
+      employmentType: "Contract",
+      location: "Malang, East Java, Indonesia",
+      locationType: "On-site",
       detail:
-        "Learned RESTful API development with Java Spring Boot, interactive React web development, React Native, clean code, and industry-standard practices.",
+        "Learning RESTful API development with Java Spring Boot. Exploring interactive and responsive web development with React.",
+      skills: ["Java", "Spring Boot", "JavaScript", "React", "React Native"],
     },
     {
       id: "ace279be-4644-41b1-a9c8-e9ec8d3fd6e1",
       period: "Jun 2021 — Aug 2021",
       role: "Quality Assurance Quality Control",
       org: "Widya Wicara",
-      detail: "Manual tested smart-speaker products and reported product issues.",
+      employmentType: "Internship",
+      location: "Yogyakarta, Indonesia",
+      locationType: "On-site",
+      detail: "Manual tester product smart speaker and reported product issues.",
+      skills: ["QA", "Testing"],
     },
   ],
   education: {
@@ -93,19 +109,26 @@ const SEED = {
 async function main() {
   const client = new MongoClient(uri);
   try {
+    console.log(`Connecting to MongoDB (${dbName})...`);
     await client.connect();
     const db = client.db(dbName);
     const col = db.collection("content");
 
+    // 1. Delete / Clear existing collection documents
+    console.log("Clearing all existing content documents from MongoDB...");
+    const deleteResult = await col.deleteMany({});
+    console.log(`✓ Cleared ${deleteResult.deletedCount} documents from '${dbName}.content'.`);
+
+    // 2. Insert new documents
+    console.log("Seeding fresh data...");
     for (const [key, value] of Object.entries(SEED)) {
-      await col.updateOne(
-        { _id: key },
-        { $set: { data: value } },
-        { upsert: true }
-      );
-      console.log(`Seeded section: ${key}`);
+      await col.insertOne({
+        _id: key,
+        data: value,
+      });
+      console.log(`✓ Inserted document: ${key}`);
     }
-    console.log("Seed complete.");
+    console.log("\n🎉 Database successfully reset and seeded with updated experience data!");
   } finally {
     await client.close();
   }
