@@ -51,7 +51,7 @@ export default async function Home() {
     .map(([lang]) => lang);
 
   return (
-    <div className="mx-auto max-w-3xl px-5 sm:px-8">
+    <div className="mx-auto max-w-4xl px-5 sm:px-8">
       <header className="sticky top-0 z-40 -mx-5 flex items-center justify-between border-b border-line/60 bg-bg/80 px-5 py-4 backdrop-blur-md sm:-mx-8 sm:px-8">
         <a href="#main" className="group font-mono text-sm font-semibold tracking-tight text-text">
           ma<span className="inline-block text-accent transition-transform duration-300 group-hover:scale-150 group-hover:rotate-12">.</span>
@@ -71,67 +71,108 @@ export default async function Home() {
       </header>
 
       <main id="main">
-        <RevealSection className="py-16 sm:py-24">
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-line/80 bg-surface/70 px-3 py-1 font-mono text-xs text-accent backdrop-blur-sm transition-all duration-300 hover:border-accent/40 hover:bg-surface">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-            </span>
-            <span>{profile.role} · {profile.location}</span>
-          </div>
-
-          <h1 className="text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">
-            {profile.name}
-          </h1>
-          <p className="mt-5 max-w-xl text-base leading-relaxed text-muted">
-            {gh?.bio ?? profile.tagline}
-          </p>
-
-          {gh && (
-            <dl className="mt-8 flex flex-wrap gap-x-8 gap-y-3 font-mono text-xs text-muted">
-              <div className="group transition-colors hover:text-text">
-                <dt className="sr-only">Public repositories</dt>
-                <dd>
-                  <span className="font-semibold text-text transition-colors group-hover:text-accent">{gh.public_repos}</span> repos
-                </dd>
+        {/* Split 2-Column Hero Section */}
+        <RevealSection className="py-10 sm:py-14">
+          <div className="grid gap-8 md:grid-cols-12 md:items-center">
+            {/* Left Column: Bio & CTAs */}
+            <div className="md:col-span-7">
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-line/80 bg-surface/70 px-3 py-1 font-mono text-xs text-accent backdrop-blur-sm transition-all duration-300 hover:border-accent/40 hover:bg-surface">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+                </span>
+                <span>Open to opportunities · {profile.location}</span>
               </div>
-              <div className="group transition-colors hover:text-text">
-                <dt className="sr-only">Followers</dt>
-                <dd>
-                  <span className="font-semibold text-text transition-colors group-hover:text-accent">{gh.followers}</span> followers
-                </dd>
-              </div>
-              <div className="group transition-colors hover:text-text">
-                <dt className="sr-only">Primary languages</dt>
-                <dd>{langs.slice(0, 3).join(" · ")}</dd>
-              </div>
-            </dl>
-          )}
 
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a
-              href={`mailto:${profile.email}`}
-              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-on-accent shadow-md shadow-accent/15 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/25 active:translate-y-0 active:scale-95"
-            >
-              <span>Get in touch</span>
-              <span className="transition-transform duration-200 group-hover:translate-x-0.5">→</span>
-            </a>
-            <a
-              href={`https://github.com/${GITHUB_USER}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/50 px-4 py-2.5 text-sm text-muted backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-muted hover:bg-surface hover:text-text hover:shadow-sm"
-            >
-              <GithubIcon /> GitHub
-            </a>
-            <a
-              href={LINKEDIN_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/50 px-4 py-2.5 text-sm text-muted backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-muted hover:bg-surface hover:text-text hover:shadow-sm"
-            >
-              <LinkedinIcon /> LinkedIn
-            </a>
+              <h1 className="text-3xl font-semibold leading-tight tracking-tight sm:text-4xl lg:text-[40px]">
+                {profile.name}
+              </h1>
+
+              <p className="mt-4 text-base leading-relaxed text-muted">
+                {gh?.bio ?? profile.tagline}
+              </p>
+
+              <div className="mt-6 flex flex-wrap gap-2.5">
+                <a
+                  href={`mailto:${profile.email}`}
+                  className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-accent px-4.5 py-2 text-sm font-medium text-on-accent shadow-md shadow-accent/15 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/25 active:translate-y-0 active:scale-95"
+                >
+                  <span>Get in touch</span>
+                  <span className="transition-transform duration-200 group-hover:translate-x-0.5">→</span>
+                </a>
+                <a
+                  href={`https://github.com/${GITHUB_USER}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/50 px-3.5 py-2 text-sm text-muted backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-muted hover:bg-surface hover:text-text hover:shadow-sm"
+                >
+                  <GithubIcon /> GitHub
+                </a>
+                <a
+                  href={LINKEDIN_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/50 px-3.5 py-2 text-sm text-muted backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-muted hover:bg-surface hover:text-text hover:shadow-sm"
+                >
+                  <LinkedinIcon /> LinkedIn
+                </a>
+              </div>
+            </div>
+
+            {/* Right Column: Developer Info Card / Terminal Widget */}
+            <div className="md:col-span-5">
+              <div className="relative rounded-xl border border-line bg-surface/80 p-5 shadow-lg shadow-black/5 backdrop-blur transition-all duration-300 hover:border-accent/40 hover:shadow-accent/5">
+                {/* Terminal Header */}
+                <div className="flex items-center justify-between border-b border-line/60 pb-3 font-mono text-[11px] text-muted">
+                  <div className="flex items-center gap-1.5">
+                    <span className="h-2.5 w-2.5 rounded-full bg-[#EA2D2E]/70" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-[#F59E0B]/70" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-[#10B981]/70" />
+                  </div>
+                  <span className="text-[10px] text-muted/70">developer.profile</span>
+                </div>
+
+                {/* Card Fields */}
+                <div className="mt-3.5 space-y-3 font-mono text-xs">
+                  <div>
+                    <span className="text-[11px] text-muted/60">// focus</span>
+                    <p className="mt-0.5 font-medium text-text">
+                      Java Spring Boot · Microservices
+                    </p>
+                  </div>
+
+                  <div>
+                    <span className="text-[11px] text-muted/60">// enterprise & systems</span>
+                    <p className="mt-0.5 text-muted">
+                      SAP Hybris · REST APIs · Docker
+                    </p>
+                  </div>
+
+                  <div>
+                    <span className="text-[11px] text-muted/60">// live stats</span>
+                    <div className="mt-1 flex items-center gap-2.5 text-text">
+                      <span className="rounded border border-line bg-bg/70 px-2 py-0.5 text-[11px]">
+                        <strong className="text-accent">{gh?.public_repos ?? 41}</strong> repos
+                      </span>
+                      <span className="rounded border border-line bg-bg/70 px-2 py-0.5 text-[11px]">
+                        <strong className="text-accent">{gh?.followers ?? 10}</strong> followers
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="border-t border-line/50 pt-2.5">
+                    <span className="text-[11px] text-muted/60">// primary stack</span>
+                    <div className="mt-1.5 flex flex-wrap gap-1.5">
+                      {langs.slice(0, 4).map((l) => (
+                        <Tag key={l} icon={<TechMark lang={l} size={12} />}>
+                          {l}
+                        </Tag>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </RevealSection>
 
@@ -190,7 +231,7 @@ export default async function Home() {
             </ScrollReveal>
           )}
 
-          <StaggerList as="ol" className="mt-10 border-l border-line">
+          <StaggerList as="ol" className="mt-8 border-l border-line">
             {timeline.map((t) => {
               const isCurrent =
                 t.period.toLowerCase().includes("present") ||
@@ -253,7 +294,7 @@ export default async function Home() {
             <span className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
           </a>
 
-          <ScrollReveal className="mt-10 border-t border-line pt-6">
+          <ScrollReveal className="mt-8 border-t border-line pt-6">
             <p className="font-mono text-[11px] uppercase tracking-widest text-muted">
               Education
             </p>
