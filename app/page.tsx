@@ -52,13 +52,17 @@ export default async function Home() {
 
   return (
     <div className="mx-auto max-w-3xl px-5 sm:px-8">
-      <header className="sticky top-0 z-40 -mx-5 flex items-center justify-between border-b border-line/60 bg-bg/80 px-5 py-4 backdrop-blur sm:-mx-8 sm:px-8">
-        <a href="#main" className="font-mono text-sm text-text">
-          ma<span className="text-accent">.</span>
+      <header className="sticky top-0 z-40 -mx-5 flex items-center justify-between border-b border-line/60 bg-bg/80 px-5 py-4 backdrop-blur-md sm:-mx-8 sm:px-8">
+        <a href="#main" className="group font-mono text-sm font-semibold tracking-tight text-text">
+          ma<span className="inline-block text-accent transition-transform duration-300 group-hover:scale-150 group-hover:rotate-12">.</span>
         </a>
         <nav className="flex items-center gap-5 text-sm text-muted">
           {nav.map((n) => (
-            <a key={n.href} href={n.href} className="transition-colors hover:text-text">
+            <a
+              key={n.href}
+              href={n.href}
+              className="relative py-1 transition-colors hover:text-text after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-accent after:transition-all after:duration-200 hover:after:w-full"
+            >
               {n.label}
             </a>
           ))}
@@ -68,9 +72,14 @@ export default async function Home() {
 
       <main id="main">
         <RevealSection className="py-16 sm:py-24">
-          <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-accent">
-            {profile.role} · {profile.location}
-          </p>
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-line/80 bg-surface/70 px-3 py-1 font-mono text-xs text-accent backdrop-blur-sm transition-all duration-300 hover:border-accent/40 hover:bg-surface">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+            </span>
+            <span>{profile.role} · {profile.location}</span>
+          </div>
+
           <h1 className="text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">
             {profile.name}
           </h1>
@@ -80,19 +89,19 @@ export default async function Home() {
 
           {gh && (
             <dl className="mt-8 flex flex-wrap gap-x-8 gap-y-3 font-mono text-xs text-muted">
-              <div>
+              <div className="group transition-colors hover:text-text">
                 <dt className="sr-only">Public repositories</dt>
                 <dd>
-                  <span className="text-text">{gh.public_repos}</span> repos
+                  <span className="font-semibold text-text transition-colors group-hover:text-accent">{gh.public_repos}</span> repos
                 </dd>
               </div>
-              <div>
+              <div className="group transition-colors hover:text-text">
                 <dt className="sr-only">Followers</dt>
                 <dd>
-                  <span className="text-text">{gh.followers}</span> followers
+                  <span className="font-semibold text-text transition-colors group-hover:text-accent">{gh.followers}</span> followers
                 </dd>
               </div>
-              <div>
+              <div className="group transition-colors hover:text-text">
                 <dt className="sr-only">Primary languages</dt>
                 <dd>{langs.slice(0, 3).join(" · ")}</dd>
               </div>
@@ -102,15 +111,16 @@ export default async function Home() {
           <div className="mt-8 flex flex-wrap gap-3">
             <a
               href={`mailto:${profile.email}`}
-              className="rounded-full bg-accent px-4 py-2 text-sm font-medium text-on-accent transition-transform hover:-translate-y-0.5"
+              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-on-accent shadow-md shadow-accent/15 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/25 active:translate-y-0 active:scale-95"
             >
-              Get in touch
+              <span>Get in touch</span>
+              <span className="transition-transform duration-200 group-hover:translate-x-0.5">→</span>
             </a>
             <a
               href={`https://github.com/${GITHUB_USER}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-full border border-line px-4 py-2 text-sm text-muted transition-colors hover:border-muted hover:text-text"
+              className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/50 px-4 py-2.5 text-sm text-muted backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-muted hover:bg-surface hover:text-text hover:shadow-sm"
             >
               <GithubIcon /> GitHub
             </a>
@@ -118,7 +128,7 @@ export default async function Home() {
               href={LINKEDIN_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-full border border-line px-4 py-2 text-sm text-muted transition-colors hover:border-muted hover:text-text"
+              className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/50 px-4 py-2.5 text-sm text-muted backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-muted hover:bg-surface hover:text-text hover:shadow-sm"
             >
               <LinkedinIcon /> LinkedIn
             </a>
@@ -131,15 +141,16 @@ export default async function Home() {
           action={
             <Link
               href="/projects"
-              className="shrink-0 font-mono text-[11px] normal-case tracking-normal text-accent transition-opacity hover:opacity-70"
+              className="group shrink-0 inline-flex items-center gap-1 font-mono text-[11px] normal-case tracking-normal text-accent transition-opacity hover:opacity-80"
             >
-              All {repos.length} →
+              <span>All {repos.length}</span>
+              <span className="transition-transform duration-200 group-hover:translate-x-0.5">→</span>
             </Link>
           }
         >
           {shown.length > 0 ? (
             <ScrollReveal>
-              <StaggerList as="ul" className="grid gap-3 sm:grid-cols-2">
+              <StaggerList as="ul" className="grid gap-3.5 sm:grid-cols-2">
                 {shown.map((r) => (
                   <RepoCard key={r.name} repo={r} notes={notes} />
                 ))}
@@ -150,7 +161,7 @@ export default async function Home() {
               Could not load repositories from GitHub right now. See them at{" "}
               <a
                 href={`https://github.com/${GITHUB_USER}`}
-                className="text-accent"
+                className="text-accent hover:underline"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -180,48 +191,66 @@ export default async function Home() {
           )}
 
           <StaggerList as="ol" className="mt-10 border-l border-line">
-            {timeline.map((t) => (
-              <li key={t.id} className="relative pl-6 pb-8 last:pb-0">
-                <span className="absolute left-[-4.5px] top-1.5 h-2 w-2 rounded-full bg-accent" />
-                <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[11px] text-muted">
-                  <span className="uppercase tracking-widest">{t.period}</span>
-                  {t.employmentType && <span>· {t.employmentType}</span>}
-                  {t.locationType && (
-                    <span className="rounded border border-line bg-surface/80 px-1.5 py-0.2 text-[10px] font-medium text-accent">
-                      {t.locationType}
+            {timeline.map((t) => {
+              const isCurrent =
+                t.period.toLowerCase().includes("present") ||
+                t.period.toLowerCase().includes("now");
+
+              return (
+                <li
+                  key={t.id}
+                  className="group relative pl-6 pb-8 last:pb-0 transition-transform duration-200 hover:translate-x-0.5"
+                >
+                  {isCurrent ? (
+                    <span className="absolute left-[-5px] top-1.5 flex h-2.5 w-2.5">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
+                      <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-accent" />
                     </span>
+                  ) : (
+                    <span className="absolute left-[-4.5px] top-1.5 h-2 w-2 rounded-full bg-accent/60 transition-colors group-hover:bg-accent" />
                   )}
-                </div>
 
-                <p className="mt-1 text-sm font-medium">
-                  {t.role} <span className="text-muted">· {t.org}</span>
-                </p>
-
-                {t.location && (
-                  <p className="mt-0.5 font-mono text-[11px] text-muted/75">
-                    {t.location}
-                  </p>
-                )}
-
-                <p className="mt-1.5 text-sm leading-relaxed text-muted">{t.detail}</p>
-
-                {t.skills && t.skills.length > 0 && (
-                  <div className="mt-3 flex flex-wrap gap-1.5">
-                    {t.skills.map((skill) => (
-                      <Tag key={skill}>{skill}</Tag>
-                    ))}
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[11px] text-muted">
+                    <span className="uppercase tracking-widest">{t.period}</span>
+                    {t.employmentType && <span>· {t.employmentType}</span>}
+                    {t.locationType && (
+                      <span className="rounded border border-line bg-surface/80 px-1.5 py-0.2 text-[10px] font-medium text-accent">
+                        {t.locationType}
+                      </span>
+                    )}
                   </div>
-                )}
-              </li>
-            ))}
+
+                  <p className="mt-1 text-sm font-medium transition-colors group-hover:text-accent">
+                    {t.role} <span className="text-muted">· {t.org}</span>
+                  </p>
+
+                  {t.location && (
+                    <p className="mt-0.5 font-mono text-[11px] text-muted/75">
+                      {t.location}
+                    </p>
+                  )}
+
+                  <p className="mt-1.5 text-sm leading-relaxed text-muted">{t.detail}</p>
+
+                  {t.skills && t.skills.length > 0 && (
+                    <div className="mt-3 flex flex-wrap gap-1.5">
+                      {t.skills.map((skill) => (
+                        <Tag key={skill}>{skill}</Tag>
+                      ))}
+                    </div>
+                  )}
+                </li>
+              );
+            })}
           </StaggerList>
           <a
             href={experienceSource}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-5 inline-block font-mono text-[11px] text-accent transition-opacity hover:opacity-70"
+            className="group mt-5 inline-flex items-center gap-1 font-mono text-[11px] text-accent transition-opacity hover:opacity-80"
           >
-            View full experience on LinkedIn ↗
+            <span>View full experience on LinkedIn</span>
+            <span className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
           </a>
 
           <ScrollReveal className="mt-10 border-t border-line pt-6">
@@ -242,9 +271,10 @@ export default async function Home() {
             </p>
             <a
               href={`mailto:${profile.email}`}
-              className="mt-4 inline-block font-mono text-sm text-accent transition-opacity hover:opacity-70"
+              className="group mt-4 inline-flex items-center gap-1.5 font-mono text-sm text-accent transition-opacity hover:opacity-80"
             >
-              {profile.email}
+              <span>{profile.email}</span>
+              <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
             </a>
           </ScrollReveal>
         </Section>
@@ -259,7 +289,7 @@ export default async function Home() {
             <a
               key={s.label}
               href={s.href}
-              className="inline-flex items-center gap-1.5 transition-colors hover:text-text"
+              className="inline-flex items-center gap-1.5 transition-all duration-200 hover:-translate-y-0.5 hover:text-text"
               rel="noopener noreferrer"
               target="_blank"
             >

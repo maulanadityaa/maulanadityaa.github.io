@@ -1,14 +1,9 @@
 import Link from "next/link";
-import type { Metadata } from "next";
 import { RepoCard } from "@/components/repo-card";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { GITHUB_USER, getContent } from "@/lib/content";
 import { LANG_PRIORITY, getRepos, type Repo } from "@/lib/github";
 import { ScrollReveal, StaggerList } from "@/components/animated";
-
-// export const metadata: Metadata = {
-//   title: `Projects — ${profile.name}`,
-//   description: `Every public repository by ${profile.name}, straight from GitHub.`,
-// };
 
 export default async function Projects() {
   const content = await getContent();
@@ -32,27 +27,31 @@ export default async function Projects() {
 
   return (
     <div className="mx-auto max-w-3xl px-5 sm:px-8">
-      <header className="sticky top-0 z-40 -mx-5 flex items-center justify-between border-b border-line/60 bg-bg/80 px-5 py-4 backdrop-blur sm:-mx-8 sm:px-8">
-        <Link href="/" className="font-mono text-sm text-text">
-          ma<span className="text-accent">.</span>
+      <header className="sticky top-0 z-40 -mx-5 flex items-center justify-between border-b border-line/60 bg-bg/80 px-5 py-4 backdrop-blur-md sm:-mx-8 sm:px-8">
+        <Link href="/" className="group font-mono text-sm font-semibold tracking-tight text-text">
+          ma<span className="inline-block text-accent transition-transform duration-300 group-hover:scale-150 group-hover:rotate-12">.</span>
         </Link>
-        <Link
-          href="/"
-          className="text-sm text-muted transition-colors hover:text-text"
-        >
-          ← Back
-        </Link>
+        <div className="flex items-center gap-5">
+          <Link
+            href="/"
+            className="group flex items-center gap-1 text-sm text-muted transition-colors hover:text-text"
+          >
+            <span className="transition-transform duration-200 group-hover:-translate-x-1">←</span>
+            <span>Back</span>
+          </Link>
+          <ThemeToggle />
+        </div>
       </header>
 
       <main className="py-14 sm:py-20">
-        <h1 className="text-3xl font-semibold tracking-tight">Projects</h1>
+        <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Projects</h1>
         <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted">
           {repos.length} public repositories, pulled live from{" "}
           <a
             href={`https://github.com/${GITHUB_USER}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-accent"
+            className="text-accent hover:underline"
           >
             GitHub
           </a>
@@ -64,10 +63,12 @@ export default async function Projects() {
             <h2 className="mb-5 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-muted">
               <span className="text-accent">/</span>
               {lang}
-              <span className="text-muted/50">{items.length}</span>
+              <span className="rounded-full border border-line/80 bg-surface/60 px-2 py-0.5 text-[10px] text-muted/70">
+                {items.length}
+              </span>
               <span className="h-px flex-1 bg-line" />
             </h2>
-            <StaggerList as="ul" className="grid gap-3 sm:grid-cols-2">
+            <StaggerList as="ul" className="grid gap-3.5 sm:grid-cols-2">
               {items.map((r) => (
                 <RepoCard key={r.name} repo={r} notes={repoNotes} />
               ))}

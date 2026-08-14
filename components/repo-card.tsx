@@ -12,27 +12,27 @@ export function RepoCard({
 
   return (
     <li>
-      <div className="group flex h-full flex-col rounded-md border border-line bg-surface p-5 transition-colors hover:border-accent/50">
+      <div className="group relative flex h-full flex-col rounded-xl border border-line bg-surface p-5.5 transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:shadow-lg hover:shadow-accent/5">
         <div className="flex items-baseline justify-between gap-3">
-          <h3 className="text-base font-medium">
+          <h3 className="text-base font-medium tracking-tight">
             <a
               href={repo.html_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="transition-colors group-hover:text-accent"
+              className="inline-flex items-center gap-1.5 transition-colors group-hover:text-accent"
             >
               {titleize(repo.name)}
             </a>
           </h3>
-          <span className="shrink-0 font-mono text-[11px] text-muted">
+          <span className="shrink-0 font-mono text-[11px] text-muted transition-colors group-hover:text-muted/80">
             {formatDate(repo.pushed_at)}
           </span>
         </div>
 
         {blurb ? (
-          <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{blurb}</p>
+          <p className="mt-2.5 flex-1 text-sm leading-relaxed text-muted">{blurb}</p>
         ) : (
-          <p className="mt-2 flex-1 font-mono text-xs text-muted/60">
+          <p className="mt-2.5 flex-1 font-mono text-xs text-muted/60">
             {repo.name}
           </p>
         )}
@@ -45,10 +45,10 @@ export function RepoCard({
           </div>
         )}
 
-        <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-line pt-3">
+        <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-line/70 pt-3">
           {repo.language && <LangDot lang={repo.language} />}
           {repo.stargazers_count > 0 && (
-            <span className="inline-flex items-center gap-1 font-mono text-[11px] text-muted">
+            <span className="inline-flex items-center gap-1 font-mono text-[11px] text-muted transition-colors hover:text-text">
               <StarIcon />
               {repo.stargazers_count}
             </span>
@@ -58,9 +58,12 @@ export function RepoCard({
               href={repo.homepage}
               target="_blank"
               rel="noopener noreferrer"
-              className="relative z-10 ml-auto font-mono text-[11px] text-accent transition-opacity hover:opacity-70"
+              className="group/live relative z-10 ml-auto inline-flex items-center gap-1 font-mono text-[11px] font-medium text-accent transition-all duration-200 hover:opacity-80"
             >
-              Live ↗
+              <span>Live</span>
+              <span className="transition-transform duration-200 group-hover/live:translate-x-0.5 group-hover/live:-translate-y-0.5">
+                ↗
+              </span>
             </a>
           )}
         </div>

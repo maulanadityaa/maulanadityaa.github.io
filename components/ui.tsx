@@ -283,7 +283,7 @@ export function Tag({
   const techIcon = icon ?? (content ? <TechMark lang={content} size={13} /> : null);
 
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface/60 px-2.5 py-0.5 font-mono text-[11px] text-muted transition-colors hover:border-accent/40 hover:text-text">
+    <span className="group/tag inline-flex items-center gap-1.5 rounded-full border border-line bg-surface/80 px-2.5 py-0.5 font-mono text-[11px] text-muted transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/50 hover:bg-surface hover:text-text hover:shadow-sm">
       {techIcon}
       <span>{children}</span>
     </span>
@@ -292,7 +292,7 @@ export function Tag({
 
 export function LangDot({ lang }: { lang: string }) {
   return (
-    <span className="inline-flex items-center gap-1.5 font-mono text-[11px] text-muted">
+    <span className="inline-flex items-center gap-1.5 font-mono text-[11px] text-muted transition-colors hover:text-text">
       <TechMark lang={lang} size={13} />
       <span>{lang}</span>
     </span>
