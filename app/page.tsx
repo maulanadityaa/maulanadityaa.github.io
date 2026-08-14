@@ -50,6 +50,13 @@ export default async function Home() {
     })
     .map(([lang]) => lang);
 
+  // Find current active role from database timeline
+  const currentJob = timeline.find(
+    (t) =>
+      t.period.toLowerCase().includes("present") ||
+      t.period.toLowerCase().includes("now"),
+  );
+
   return (
     <div className="mx-auto max-w-4xl px-5 sm:px-8">
       <header className="sticky top-0 z-40 -mx-5 flex items-center justify-between border-b border-line/60 bg-bg/80 px-5 py-4 backdrop-blur-md sm:-mx-8 sm:px-8">
@@ -81,7 +88,11 @@ export default async function Home() {
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
                 </span>
-                <span>Open to opportunities · {profile.location}</span>
+                <span>
+                  {currentJob
+                    ? `${currentJob.role} · ${currentJob.org}`
+                    : `${profile.role} · ${profile.location}`}
+                </span>
               </div>
 
               <h1 className="text-3xl font-semibold leading-tight tracking-tight sm:text-4xl lg:text-[40px]">
@@ -135,16 +146,24 @@ export default async function Home() {
                 {/* Card Fields */}
                 <div className="mt-3.5 space-y-3 font-mono text-xs">
                   <div>
-                    <span className="text-[11px] text-muted/60">// focus</span>
+                    <span className="text-[11px] text-muted/60">// current role</span>
                     <p className="mt-0.5 font-medium text-text">
-                      Java Spring Boot · Microservices
+                      {currentJob ? currentJob.role : profile.role}
                     </p>
+                    {currentJob && (
+                      <p className="text-[11px] text-muted">
+                        {currentJob.org}
+                        {currentJob.locationType && ` · ${currentJob.locationType}`}
+                      </p>
+                    )}
                   </div>
 
                   <div>
-                    <span className="text-[11px] text-muted/60">// enterprise & systems</span>
+                    <span className="text-[11px] text-muted/60">// focus & stack</span>
                     <p className="mt-0.5 text-muted">
-                      SAP Hybris · REST APIs · Docker
+                      {currentJob?.skills && currentJob.skills.length > 0
+                        ? currentJob.skills.join(" · ")
+                        : "Java Spring Boot · Microservices"}
                     </p>
                   </div>
 
@@ -161,7 +180,7 @@ export default async function Home() {
                   </div>
 
                   <div className="border-t border-line/50 pt-2.5">
-                    <span className="text-[11px] text-muted/60">// primary stack</span>
+                    <span className="text-[11px] text-muted/60">// primary languages</span>
                     <div className="mt-1.5 flex flex-wrap gap-1.5">
                       {langs.slice(0, 4).map((l) => (
                         <Tag key={l} icon={<TechMark lang={l} size={12} />}>
