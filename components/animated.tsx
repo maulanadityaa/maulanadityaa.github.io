@@ -6,7 +6,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { ElementType, ReactNode } from "react";
 import { useRef } from "react";
 
-gsap.registerPlugin(useGSAP, ScrollTrigger);
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(useGSAP, ScrollTrigger);
+}
 
 export function RevealSection({
   children,
@@ -20,25 +22,29 @@ export function RevealSection({
   useGSAP(
     () => {
       const isReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (isReduced) return;
+      if (isReduced || !containerRef.current) return;
 
-      gsap.from(containerRef.current, {
-        opacity: 0,
-        y: 20,
-        duration: 0.6,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 85%",
-          toggleActions: "play none none none",
-        },
+      // Defer to animation frame so React 19 finishes initial HTML attribute hydration without mismatch
+      requestAnimationFrame(() => {
+        if (!containerRef.current) return;
+        gsap.from(containerRef.current, {
+          opacity: 0,
+          y: 20,
+          duration: 0.6,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        });
       });
     },
     { scope: containerRef }
   );
 
   return (
-    <div ref={containerRef} className={className}>
+    <div ref={containerRef} className={className} suppressHydrationWarning>
       {children}
     </div>
   );
@@ -58,26 +64,29 @@ export function ScrollReveal({
   useGSAP(
     () => {
       const isReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (isReduced) return;
+      if (isReduced || !containerRef.current) return;
 
-      gsap.from(containerRef.current, {
-        opacity: 0,
-        y: direction === "up" ? 40 : direction === "down" ? -40 : 0,
-        x: direction === "left" ? -40 : direction === "right" ? 40 : 0,
-        duration: 0.8,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 85%",
-          toggleActions: "play none none none",
-        },
+      requestAnimationFrame(() => {
+        if (!containerRef.current) return;
+        gsap.from(containerRef.current, {
+          opacity: 0,
+          y: direction === "up" ? 40 : direction === "down" ? -40 : 0,
+          x: direction === "left" ? -40 : direction === "right" ? 40 : 0,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        });
       });
     },
     { scope: containerRef }
   );
 
   return (
-    <div ref={containerRef} className={className}>
+    <div ref={containerRef} className={className} suppressHydrationWarning>
       {children}
     </div>
   );
@@ -99,38 +108,40 @@ export function StaggerList({
   useGSAP(
     () => {
       const isReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (isReduced) return;
+      if (isReduced || !containerRef.current) return;
 
       const container = containerRef.current;
-      if (!container) return;
 
-      let targets: Element[];
-      if (selector === "> *") {
-        targets = Array.from(container.children);
-      } else {
-        targets = Array.from(container.querySelectorAll(selector));
-      }
+      requestAnimationFrame(() => {
+        if (!container) return;
+        let targets: Element[];
+        if (selector === "> *") {
+          targets = Array.from(container.children);
+        } else {
+          targets = Array.from(container.querySelectorAll(selector));
+        }
 
-      if (targets.length === 0) return;
+        if (targets.length === 0) return;
 
-      gsap.from(targets, {
-        opacity: 0,
-        y: 16,
-        duration: 0.5,
-        stagger: 0.08,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: container,
-          start: "top 85%",
-          toggleActions: "play none none none",
-        },
+        gsap.from(targets, {
+          opacity: 0,
+          y: 16,
+          duration: 0.5,
+          stagger: 0.08,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: container,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        });
       });
     },
     { scope: containerRef }
   );
 
   return (
-    <Component ref={containerRef} className={className}>
+    <Component ref={containerRef} className={className} suppressHydrationWarning>
       {children}
     </Component>
   );
