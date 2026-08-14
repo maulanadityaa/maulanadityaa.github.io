@@ -73,28 +73,42 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-body::before {
-  content: "";
+/* Minimalist Clean Texture & Ambient Glow */
+.geometric-bg {
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
-  background-image: radial-gradient(circle at 1px 1px, rgb(64 79 104 / 0.1) 1px, transparent 0),
-    radial-gradient(ellipse 85% 55% at 50% 0%, rgb(64 79 104 / 0.12), transparent 70%);
-  background-size: 24px 24px, auto;
-  mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, #000 20%, transparent 75%);
+  overflow: hidden;
 }
 
-:root[data-theme="dark"] body::before {
-  background-image: radial-gradient(circle at 1px 1px, rgb(196 196 196 / 0.07) 1px, transparent 0),
-    radial-gradient(ellipse 85% 55% at 50% 0%, rgb(64 79 104 / 0.25), transparent 70%);
+.geometric-glow {
+  position: absolute;
+  top: -160px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(64, 79, 104, 0.12) 0%, transparent 70%);
+  filter: blur(60px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) body::before {
-    background-image: radial-gradient(circle at 1px 1px, rgb(196 196 196 / 0.07) 1px, transparent 0),
-      radial-gradient(ellipse 85% 55% at 50% 0%, rgb(64 79 104 / 0.25), transparent 70%);
-  }
+:root[data-theme="dark"] .geometric-glow {
+  background: radial-gradient(circle, rgba(64, 79, 104, 0.25) 0%, transparent 70%);
+}
+
+.geometric-grid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at 1px 1px, rgba(64, 79, 104, 0.12) 1px, transparent 0);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse 80% 55% at 50% 0%, #000 25%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 55% at 50% 0%, #000 25%, transparent 80%);
+}
+
+:root[data-theme="dark"] .geometric-grid {
+  background-image: radial-gradient(circle at 1px 1px, rgba(196, 196, 196, 0.08) 1px, transparent 0);
 }
 
 ::selection {

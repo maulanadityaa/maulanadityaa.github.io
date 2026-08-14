@@ -1,50 +1,26 @@
 "use client";
 
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import type { ElementType, ReactNode } from "react";
-import { useRef } from "react";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(useGSAP, ScrollTrigger);
-}
+import { useEffect, useRef, useState, type ElementType, type ReactNode } from "react";
 
 export function RevealSection({
   children,
-  className,
+  className = "",
 }: {
   children: ReactNode;
   className?: string;
 }) {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
 
-  useGSAP(
-    () => {
-      const isReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (isReduced || !containerRef.current) return;
-
-      // Defer to animation frame so React 19 finishes initial HTML attribute hydration without mismatch
-      requestAnimationFrame(() => {
-        if (!containerRef.current) return;
-        gsap.from(containerRef.current, {
-          opacity: 0,
-          y: 20,
-          duration: 0.6,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 85%",
-            toggleActions: "play none none none",
-          },
-        });
-      });
-    },
-    { scope: containerRef }
-  );
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
-    <div ref={containerRef} className={className} suppressHydrationWarning>
+    <div
+      className={`${className} transition-all duration-700 ease-out ${
+        mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+      }`}
+    >
       {children}
     </div>
   );
@@ -52,41 +28,60 @@ export function RevealSection({
 
 export function ScrollReveal({
   children,
-  className,
+  className = "",
   direction = "up",
 }: {
   children: ReactNode;
   className?: string;
   direction?: "up" | "down" | "left" | "right";
 }) {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
 
-  useGSAP(
-    () => {
-      const isReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (isReduced || !containerRef.current) return;
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
 
-      requestAnimationFrame(() => {
-        if (!containerRef.current) return;
-        gsap.from(containerRef.current, {
-          opacity: 0,
-          y: direction === "up" ? 40 : direction === "down" ? -40 : 0,
-          x: direction === "left" ? -40 : direction === "right" ? 40 : 0,
-          duration: 0.8,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 85%",
-            toggleActions: "play none none none",
-          },
-        });
-      });
-    },
-    { scope: containerRef }
-  );
+    if (typeof IntersectionObserver === "undefined") {
+      setVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.05, rootMargin: "80px" }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const getHiddenTransform = () => {
+    switch (direction) {
+      case "down":
+        return "-translate-y-6";
+      case "left":
+        return "translate-x-6";
+      case "right":
+        return "-translate-x-6";
+      case "up":
+      default:
+        return "translate-y-6";
+    }
+  };
 
   return (
-    <div ref={containerRef} className={className} suppressHydrationWarning>
+    <div
+      ref={ref}
+      className={`${className} transition-all duration-700 ease-out ${
+        visible ? "opacity-100 translate-y-0 translate-x-0" : `opacity-0 ${getHiddenTransform()}`
+      }`}
+    >
       {children}
     </div>
   );
@@ -94,54 +89,47 @@ export function ScrollReveal({
 
 export function StaggerList({
   children,
-  className,
+  className = "",
   as: Component = "div",
-  selector = "> *",
 }: {
   children: ReactNode;
   className?: string;
   as?: ElementType;
   selector?: string;
 }) {
-  const containerRef = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLElement>(null);
+  const [visible, setVisible] = useState(false);
 
-  useGSAP(
-    () => {
-      const isReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (isReduced || !containerRef.current) return;
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
 
-      const container = containerRef.current;
+    if (typeof IntersectionObserver === "undefined") {
+      setVisible(true);
+      return;
+    }
 
-      requestAnimationFrame(() => {
-        if (!container) return;
-        let targets: Element[];
-        if (selector === "> *") {
-          targets = Array.from(container.children);
-        } else {
-          targets = Array.from(container.querySelectorAll(selector));
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.unobserve(el);
         }
+      },
+      { threshold: 0.05, rootMargin: "80px" }
+    );
 
-        if (targets.length === 0) return;
-
-        gsap.from(targets, {
-          opacity: 0,
-          y: 16,
-          duration: 0.5,
-          stagger: 0.08,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: container,
-            start: "top 85%",
-            toggleActions: "play none none none",
-          },
-        });
-      });
-    },
-    { scope: containerRef }
-  );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <Component ref={containerRef} className={className} suppressHydrationWarning>
+    <Component
+      ref={ref}
+      className={`${className} transition-all duration-700 ease-out ${
+        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+      }`}
+    >
       {children}
     </Component>
   );

@@ -21,14 +21,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={cn("font-sans", geist.variable)} suppressHydrationWarning>
-      <body suppressHydrationWarning>
+      <body suppressHydrationWarning className="relative min-h-screen">
+        {/* Subtle Minimal Ambient Background */}
+        <div className="geometric-bg" aria-hidden="true">
+          <div className="geometric-glow" />
+          <div className="geometric-grid" />
+        </div>
+
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-accent focus:px-3 focus:py-2 focus:text-sm focus:text-on-accent"
         >
           Skip to content
         </a>
-        {children}
+        <div className="relative z-10">{children}</div>
       </body>
     </html>
   );

@@ -82,7 +82,7 @@ export default async function Projects() {
       </main>
 
       <footer className="border-t border-line py-8 font-mono text-[11px] text-muted">
-        © 2026 {content.profile.name}
+        © {new Date().getFullYear()} {content.profile.name}
       </footer>
     </div>
   );

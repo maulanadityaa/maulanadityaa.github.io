@@ -363,7 +363,7 @@ export default async function Home() {
 
       <footer className="flex flex-col gap-4 border-t border-line py-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
         <p className="font-mono text-[11px]">
-          © 2026 {profile.name}
+          © {new Date().getFullYear()} {profile.name}
         </p>
         <div className="flex gap-4">
           {profile.socials.map((s) => (
