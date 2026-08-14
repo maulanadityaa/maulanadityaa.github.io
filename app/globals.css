@@ -10,7 +10,8 @@
    - Granite Grey: #4A4A4A (Muted Light / Dark Surface)
 */
 
-:root {
+:root,
+:root[data-theme="light"] {
   --bg: #F3F4F6;
   --surface: #FFFFFF;
   --line: #D5D9E0;
@@ -28,18 +29,6 @@
   --muted: #C4C4C4;
   --accent: #7D94B5;
   --on-accent: #FFFFFF;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #1E2127;
-    --surface: #282C34;
-    --line: #4A4A4A;
-    --text: #F3F4F6;
-    --muted: #C4C4C4;
-    --accent: #7D94B5;
-    --on-accent: #FFFFFF;
-  }
 }
 
 @theme {
@@ -73,7 +62,61 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Minimalist Clean Texture & Ambient Glow */
+/* Instant preloader bypass if already loaded in this session */
+html.hide-preloader #initial-preloader {
+  display: none !important;
+}
+
+/* Custom Sleek Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(64, 79, 104, 0.25);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(64, 79, 104, 0.5);
+}
+
+:root[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background-color: rgba(125, 148, 181, 0.28);
+}
+
+:root[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(125, 148, 181, 0.55);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(64, 79, 104, 0.25) transparent;
+}
+
+:root[data-theme="dark"] * {
+  scrollbar-color: rgba(125, 148, 181, 0.28) transparent;
+}
+
+/* Zero-hydration-mismatch scroll reveal animation */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 700ms cubic-bezier(0.22, 1, 0.36, 1), transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Ultra-Fine Minimal Micro-Dot Matrix & Ambient Glow */
 .geometric-bg {
   position: fixed;
   inset: 0;
@@ -87,24 +130,24 @@ body {
   top: -160px;
   left: 50%;
   transform: translateX(-50%);
-  width: 800px;
-  height: 400px;
+  width: 750px;
+  height: 380px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(64, 79, 104, 0.12) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(148, 163, 184, 0.18) 0%, transparent 70%);
   filter: blur(60px);
 }
 
 :root[data-theme="dark"] .geometric-glow {
-  background: radial-gradient(circle, rgba(64, 79, 104, 0.25) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(64, 79, 104, 0.22) 0%, transparent 70%);
 }
 
 .geometric-grid {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle at 1px 1px, rgba(64, 79, 104, 0.12) 1px, transparent 0);
-  background-size: 28px 28px;
-  mask-image: radial-gradient(ellipse 80% 55% at 50% 0%, #000 25%, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse 80% 55% at 50% 0%, #000 25%, transparent 80%);
+  background-image: radial-gradient(circle at 1px 1px, rgba(148, 163, 184, 0.35) 1px, transparent 0);
+  background-size: 24px 24px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 25%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 25%, transparent 85%);
 }
 
 :root[data-theme="dark"] .geometric-grid {

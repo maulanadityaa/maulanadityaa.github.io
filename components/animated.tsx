@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ElementType, type ReactNode } from "react";
+import { useEffect, useRef, type ElementType, type ReactNode } from "react";
 
 export function RevealSection({
   children,
@@ -9,81 +9,46 @@ export function RevealSection({
   children: ReactNode;
   className?: string;
 }) {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  return (
-    <div
-      suppressHydrationWarning
-      className={`${className} transition-all duration-700 ease-out ${
-        mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-      }`}
-    >
-      {children}
-    </div>
-  );
+  return <div className={className}>{children}</div>;
 }
 
 export function ScrollReveal({
   children,
   className = "",
-  direction = "up",
 }: {
   children: ReactNode;
   className?: string;
   direction?: "up" | "down" | "left" | "right";
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!el || typeof IntersectionObserver === "undefined") return;
 
-    if (typeof IntersectionObserver === "undefined") {
-      setVisible(true);
-      return;
-    }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setVisible(true);
+          el.classList.add("is-revealed");
           observer.unobserve(el);
         }
       },
-      { threshold: 0.05, rootMargin: "80px" }
+      { threshold: 0.05, rootMargin: "60px" }
     );
 
-    observer.observe(el);
+    const rect = el.getBoundingClientRect();
+    if (rect.top > window.innerHeight) {
+      el.classList.add("reveal-on-scroll");
+      observer.observe(el);
+    }
+
     return () => observer.disconnect();
   }, []);
 
-  const getHiddenTransform = () => {
-    switch (direction) {
-      case "down":
-        return "-translate-y-6";
-      case "left":
-        return "translate-x-6";
-      case "right":
-        return "-translate-x-6";
-      case "up":
-      default:
-        return "translate-y-6";
-    }
-  };
-
   return (
-    <div
-      ref={ref}
-      suppressHydrationWarning
-      className={`${className} transition-all duration-700 ease-out ${
-        visible ? "opacity-100 translate-y-0 translate-x-0" : `opacity-0 ${getHiddenTransform()}`
-      }`}
-    >
+    <div ref={ref} className={className}>
       {children}
     </div>
   );
@@ -99,41 +64,5 @@ export function StaggerList({
   as?: ElementType;
   selector?: string;
 }) {
-  const ref = useRef<HTMLElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    if (typeof IntersectionObserver === "undefined") {
-      setVisible(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.unobserve(el);
-        }
-      },
-      { threshold: 0.05, rootMargin: "80px" }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <Component
-      ref={ref}
-      suppressHydrationWarning
-      className={`${className} transition-all duration-700 ease-out ${
-        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-      }`}
-    >
-      {children}
-    </Component>
-  );
+  return <Component className={className}>{children}</Component>;
 }

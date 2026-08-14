@@ -22,23 +22,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={cn("font-sans", geist.variable)} suppressHydrationWarning>
-      <head>
-        {/* Synchronous inline script to prevent Flash of Dark Mode (FOUC) */}
+      <body suppressHydrationWarning className="relative min-h-screen">
+        {/* Synchronous script to handle instant theme and instant preloader state before first paint */}
         <script
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
-            __html: `(function(){
-              try {
-                var saved = localStorage.getItem('portfolio-theme');
-                var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                var theme = saved === 'light' || saved === 'dark' ? saved : (systemDark ? 'dark' : 'light');
-                document.documentElement.dataset.theme = theme;
-              } catch(e) {}
-            })();`,
+            __html: `(function(){try{var s=localStorage.getItem('portfolio-theme'),d=window.matchMedia('(prefers-color-scheme: dark)').matches,t=s==='light'||s==='dark'?s:(d?'dark':'light');document.documentElement.setAttribute('data-theme',t);if(sessionStorage.getItem('portfolio_session_loaded')==='true'){document.documentElement.classList.add('hide-preloader');}}catch(e){}})();`,
           }}
         />
-      </head>
-      <body suppressHydrationWarning className="relative min-h-screen">
-        {/* Initial Brand Preloader */}
+
+        {/* Initial Brand Preloader (Rendered on Frame 0) */}
         <Preloader />
 
         {/* Subtle Minimal Ambient Background */}

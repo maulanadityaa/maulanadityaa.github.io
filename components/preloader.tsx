@@ -5,56 +5,51 @@ import { useEffect, useState } from "react";
 const STORAGE_KEY = "portfolio_session_loaded";
 
 export function Preloader() {
-  const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [exiting, setExiting] = useState(false);
+  const [removed, setRemoved] = useState(false);
 
   useEffect(() => {
-    // Only run preloader on the first visit of the browser session
     try {
-      const hasLoaded = sessionStorage.getItem(STORAGE_KEY);
-      if (hasLoaded === "true") {
+      if (sessionStorage.getItem(STORAGE_KEY) === "true") {
+        setRemoved(true);
         return;
       }
-    } catch {
-      // In case storage is inaccessible
-    }
-
-    setLoading(true);
+    } catch {}
 
     const start = performance.now();
-    const duration = 700; // ms
+    const duration = 650; // ms
 
-    const interval = setInterval(() => {
+    const timer = setInterval(() => {
       const elapsed = performance.now() - start;
-      const current = Math.min(Math.round((elapsed / duration) * 100), 100);
-      setProgress(current);
+      const pct = Math.min(Math.round((elapsed / duration) * 100), 100);
+      setProgress(pct);
 
-      if (current >= 100) {
-        clearInterval(interval);
+      if (pct >= 100) {
+        clearInterval(timer);
         try {
           sessionStorage.setItem(STORAGE_KEY, "true");
         } catch {}
 
         setTimeout(() => {
           setExiting(true);
-          setTimeout(() => {
-            setLoading(false);
-          }, 500); // exit fade duration
-        }, 120);
+          setTimeout(() => setRemoved(true), 400);
+        }, 100);
       }
     }, 20);
 
-    return () => clearInterval(interval);
+    return () => clearInterval(timer);
   }, []);
 
-  if (!loading) return null;
+  if (removed) return null;
 
   return (
     <div
+      id="initial-preloader"
       aria-hidden="true"
-      className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-bg transition-all duration-500 ease-out ${
-        exiting ? "opacity-0 pointer-events-none scale-105" : "opacity-100"
+      suppressHydrationWarning
+      className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-bg transition-opacity duration-400 ease-out ${
+        exiting ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
     >
       {/* Ambient background glow */}
