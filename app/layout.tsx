@@ -1,11 +1,29 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Plus_Jakarta_Sans, Geist_Mono, JetBrains_Mono } from "next/font/google";
 import { getContent } from "@/lib/content";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Preloader } from "@/components/preloader";
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
+const sans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+});
+
+const mono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains",
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
 
 export async function generateMetadata(): Promise<Metadata> {
   const { profile } = await getContent();
@@ -21,17 +39,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={cn("font-sans", geist.variable)} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={cn(
+        "font-sans antialiased",
+        sans.variable,
+        mono.variable,
+        jetbrainsMono.variable
+      )}
+      suppressHydrationWarning
+    >
       <body suppressHydrationWarning className="relative min-h-screen">
-        {/* Synchronous script to handle instant theme and instant preloader state before first paint */}
+        {/* Synchronous script to handle instant theme, scroll reset to top, and preloader bypass */}
         <script
           suppressHydrationWarning
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var s=localStorage.getItem('portfolio-theme'),d=window.matchMedia('(prefers-color-scheme: dark)').matches,t=s==='light'||s==='dark'?s:(d?'dark':'light');document.documentElement.setAttribute('data-theme',t);if(sessionStorage.getItem('portfolio_session_loaded')==='true'){document.documentElement.classList.add('hide-preloader');}}catch(e){}})();`,
+            __html: `(function(){try{if(history.scrollRestoration){history.scrollRestoration='manual';}window.scrollTo(0,0);var s=localStorage.getItem('portfolio-theme'),d=window.matchMedia('(prefers-color-scheme: dark)').matches,t=s==='light'||s==='dark'?s:(d?'dark':'light');document.documentElement.setAttribute('data-theme',t);if(sessionStorage.getItem('portfolio_session_loaded')==='true'){document.documentElement.classList.add('hide-preloader');}}catch(e){}})();`,
           }}
         />
 
-        {/* Initial Brand Preloader (Rendered on Frame 0) */}
+        {/* Initial Brand Preloader */}
         <Preloader />
 
         {/* Subtle Minimal Ambient Background */}

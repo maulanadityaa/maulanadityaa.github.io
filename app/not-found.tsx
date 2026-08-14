@@ -7,7 +7,7 @@ export default function NotFound() {
     <div className="mx-auto flex min-h-[calc(100vh-4rem)] max-w-3xl flex-col px-5 sm:px-8">
       {/* Header Bar */}
       <header className="sticky top-0 z-40 -mx-5 flex items-center justify-between border-b border-line/60 bg-bg/80 px-5 py-4 backdrop-blur-md sm:-mx-8 sm:px-8">
-        <Link href="/" className="group font-mono text-sm font-semibold tracking-tight text-text">
+        <Link id="nav-brand" href="/" className="group font-mono text-sm font-semibold tracking-tight text-text">
           ma<span className="inline-block text-accent transition-transform duration-300 group-hover:scale-150 group-hover:rotate-12">.</span>
         </Link>
         <div className="flex items-center gap-5">

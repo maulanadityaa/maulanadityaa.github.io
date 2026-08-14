@@ -72,7 +72,7 @@ export default async function Home() {
   return (
     <div className="mx-auto max-w-4xl px-5 sm:px-8">
       <header className="sticky top-0 z-40 -mx-5 flex items-center justify-between border-b border-line/60 bg-bg/80 px-5 py-4 backdrop-blur-md sm:-mx-8 sm:px-8">
-        <a href="#main" className="group font-mono text-sm font-semibold tracking-tight text-text">
+        <a id="nav-brand" href="#main" className="group font-mono text-sm font-semibold tracking-tight text-text">
           ma<span className="inline-block text-accent transition-transform duration-300 group-hover:scale-150 group-hover:rotate-12">.</span>
         </a>
         <nav className="flex items-center gap-5 text-sm text-muted">
@@ -145,9 +145,9 @@ export default async function Home() {
 
             {/* Right Column: Sleek Developer Card */}
             <div className="md:col-span-5">
-              <div className="relative rounded-2xl border border-line bg-surface/90 p-5 shadow-xl shadow-black/5 backdrop-blur-md transition-all duration-300 hover:border-accent/40 hover:shadow-accent/5">
+              <div className="relative font-jetbrains rounded-2xl border border-line bg-surface/90 p-5 shadow-xl shadow-black/5 backdrop-blur-md transition-all duration-300 hover:border-accent/40 hover:shadow-accent/5">
                 {/* Terminal Header Bar */}
-                <div className="flex items-center justify-between border-b border-line/60 pb-3 font-mono text-[11px] text-muted">
+                <div className="flex items-center justify-between border-b border-line/60 pb-3 text-[11px] text-muted">
                   <div className="flex items-center gap-1.5">
                     <span className="h-2.5 w-2.5 rounded-full bg-[#EF4444]/80" />
                     <span className="h-2.5 w-2.5 rounded-full bg-[#F59E0B]/80" />
@@ -157,7 +157,7 @@ export default async function Home() {
                 </div>
 
                 {/* Card Body */}
-                <div className="mt-3.5 space-y-3 font-mono text-xs">
+                <div className="mt-3.5 space-y-3 text-xs">
                   <div>
                     <span className="text-[11px] text-muted/60">// current role</span>
                     <p className="mt-0.5 font-medium text-text">
@@ -248,7 +248,7 @@ export default async function Home() {
         </Section>
 
         <Section id="about" title="About">
-          <p className="max-w-xl text-sm leading-relaxed text-muted">
+          <p className="text-sm leading-relaxed text-muted sm:text-[15px]">
             {profile.tagline} Most of what I build lives on GitHub — the list
             above is generated from it, so it is never out of date.
           </p>
@@ -343,7 +343,7 @@ export default async function Home() {
 
         <Section id="contact" title="Contact">
           <ScrollReveal>
-            <p className="max-w-xl text-sm leading-relaxed text-muted">
+            <p className="text-sm leading-relaxed text-muted sm:text-[15px]">
               Open to backend and full-stack work. Easiest way to reach me is
               email.
             </p>

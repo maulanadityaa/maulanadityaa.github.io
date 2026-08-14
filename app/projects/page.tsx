@@ -29,7 +29,7 @@ export default async function Projects() {
   return (
     <div className="mx-auto max-w-4xl px-5 sm:px-8">
       <header className="sticky top-0 z-40 -mx-5 flex items-center justify-between border-b border-line/60 bg-bg/80 px-5 py-4 backdrop-blur-md sm:-mx-8 sm:px-8">
-        <Link href="/" className="group font-mono text-sm font-semibold tracking-tight text-text">
+        <Link id="nav-brand" href="/" className="group font-mono text-sm font-semibold tracking-tight text-text">
           ma<span className="inline-block text-accent transition-transform duration-300 group-hover:scale-150 group-hover:rotate-12">.</span>
         </Link>
         <div className="flex items-center gap-5">
@@ -49,7 +49,7 @@ export default async function Projects() {
 
       <main className="py-14 sm:py-20">
         <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Projects</h1>
-        <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted">
+        <p className="mt-3 text-sm leading-relaxed text-muted">
           {repos.length} public repositories, pulled live from{" "}
           <a
             href={`https://github.com/${GITHUB_USER}`}
