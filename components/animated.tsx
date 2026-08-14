@@ -17,6 +17,7 @@ export function RevealSection({
 
   return (
     <div
+      suppressHydrationWarning
       className={`${className} transition-all duration-700 ease-out ${
         mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
       }`}
@@ -78,6 +79,7 @@ export function ScrollReveal({
   return (
     <div
       ref={ref}
+      suppressHydrationWarning
       className={`${className} transition-all duration-700 ease-out ${
         visible ? "opacity-100 translate-y-0 translate-x-0" : `opacity-0 ${getHiddenTransform()}`
       }`}
@@ -126,6 +128,7 @@ export function StaggerList({
   return (
     <Component
       ref={ref}
+      suppressHydrationWarning
       className={`${className} transition-all duration-700 ease-out ${
         visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
       }`}

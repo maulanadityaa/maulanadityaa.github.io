@@ -1,108 +1,56 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const STORAGE_KEY = "portfolio-theme";
-
-type Theme = "light" | "dark";
 
 interface ThemeToggleProps {
   className?: string;
 }
 
 export function ThemeToggle({ className }: ThemeToggleProps) {
-  const [theme, setTheme] = useState<Theme>("light");
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    const saved = window.localStorage.getItem(STORAGE_KEY) as Theme | null;
-    const preferred = window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
-    const initial = saved === "dark" || saved === "light" ? saved : preferred;
-    document.documentElement.dataset.theme = initial;
-    setTheme(initial);
-    setMounted(true);
-  }, []);
-
   const toggle = () => {
-    const next = theme === "dark" ? "light" : "dark";
+    const current = document.documentElement.dataset.theme;
+    const next = current === "dark" ? "light" : "dark";
     document.documentElement.dataset.theme = next;
-    window.localStorage.setItem(STORAGE_KEY, next);
-    setTheme(next);
+    try {
+      window.localStorage.setItem(STORAGE_KEY, next);
+    } catch {}
   };
-
-  // Render skeleton with exact dimensions during SSR to avoid hydration mismatch
-  if (!mounted) {
-    return (
-      <div
-        className={cn(
-          "h-8 w-16 rounded-full border border-line bg-surface",
-          className
-        )}
-      />
-    );
-  }
-
-  const isDark = theme === "dark";
 
   return (
     <button
       type="button"
-      aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
+      aria-label="Toggle color theme"
       className={cn(
-        "relative grid h-8 w-16 grid-cols-2 cursor-pointer select-none items-center rounded-full border p-[3px]",
-        isDark
-          ? "border-[#4A4A4A] bg-[#282C34]"
-          : "border-[#D5D9E0] bg-[#FFFFFF]",
+        "group/theme relative grid h-8 w-16 grid-cols-2 cursor-pointer select-none items-center rounded-full border p-[3px] transition-colors duration-300",
+        "border-[#D5D9E0] bg-[#FFFFFF] dark:border-[#4A4A4A] dark:bg-[#282C34]",
         className
       )}
-      style={{
-        transition: "background-color 300ms ease, border-color 300ms ease",
-      }}
       onClick={toggle}
     >
-      {/* Mathematically centered active sliding pill */}
+      {/* Sliding Pill - Driven entirely by CSS to guarantee 0 hydration mismatches */}
       <span
         className={cn(
-          "absolute top-[3px] left-[5px] h-6 w-6 rounded-full shadow-sm pointer-events-none",
-          isDark ? "bg-[#404F68]" : "bg-[#F3F4F6] border border-[#E2E5EB]"
+          "absolute top-[3px] left-[5px] h-6 w-6 rounded-full shadow-sm pointer-events-none transition-transform duration-300 ease-out",
+          "border border-[#E2E5EB] bg-[#F3F4F6] translate-x-0",
+          "dark:border-transparent dark:bg-[#404F68] dark:translate-x-[28px]"
         )}
-        style={{
-          transform: isDark ? "translate3d(28px, 0, 0)" : "translate3d(0px, 0, 0)",
-          transition: "transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1), background-color 300ms ease",
-          willChange: "transform",
-        }}
       />
 
-      {/* Sun Icon (Column 1 - Active Amber Gold / Inactive Steel Grey) */}
+      {/* Sun Icon */}
       <span className="relative z-10 flex h-6 w-full items-center justify-center pointer-events-none">
         <Sun
-          className={cn(
-            "h-3.5 w-3.5",
-            isDark ? "text-[#777777]" : "text-[#F59E0B]"
-          )}
-          style={{
-            transition: "color 300ms ease, transform 300ms ease",
-            transform: isDark ? "scale(0.85)" : "scale(1)",
-          }}
+          className="h-3.5 w-3.5 text-[#F59E0B] scale-100 transition-all duration-300 dark:text-[#777777] dark:scale-85"
           strokeWidth={2.25}
         />
       </span>
 
-      {/* Moon Icon (Column 2 - Active Celestial Blue / Inactive Steel Grey) */}
+      {/* Moon Icon */}
       <span className="relative z-10 flex h-6 w-full items-center justify-center pointer-events-none">
         <Moon
-          className={cn(
-            "h-3.5 w-3.5",
-            isDark ? "text-[#60A5FA]" : "text-[#777777]"
-          )}
-          style={{
-            transition: "color 300ms ease, transform 300ms ease",
-            transform: isDark ? "scale(1)" : "scale(0.85)",
-          }}
+          className="h-3.5 w-3.5 text-[#777777] scale-85 transition-all duration-300 dark:text-[#60A5FA] dark:scale-100"
           strokeWidth={2.25}
         />
       </span>
