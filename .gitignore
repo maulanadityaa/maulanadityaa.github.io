@@ -1,15 +1,17 @@
-node_modules
-.next
-out
-.env*.local
+# Exclude all dot-directories (e.g. .agents/, .claude/, .impeccable/, .next/, .vscode/, etc.)
+.*/
+!.github/
+
+# Dependencies & Build
+node_modules/
+out/
 next-env.d.ts
 *.tsbuildinfo
+skills-lock.json
 
-# OS files
+# Environment files
+.env*.local
+
+# OS generated files
 .DS_Store
 Thumbs.db
-
-# Agent configs & skills
-.agents/
-.claude/
-skills-lock.json
