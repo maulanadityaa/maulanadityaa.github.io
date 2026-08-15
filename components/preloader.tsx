@@ -70,7 +70,16 @@ export function Preloader() {
     return () => clearInterval(timer);
   }, []);
 
-  if (removed) return null;
+  if (removed) {
+    return (
+      <div
+        id={DOM_IDS.INITIAL_PRELOADER}
+        aria-hidden="true"
+        suppressHydrationWarning
+        className="hidden"
+      />
+    );
+  }
 
   return (
     <div
