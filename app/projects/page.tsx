@@ -1,9 +1,8 @@
 import Link from "next/link";
-import { RepoCard } from "@/components/repo-card";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { ProjectsExplorer } from "@/components/projects-explorer";
 import { GITHUB_USER, getContent } from "@/lib/content";
-import { LANG_PRIORITY, getRepos, type Repo } from "@/lib/github";
-import { ScrollReveal, StaggerList } from "@/components/animated";
+import { getRepos } from "@/lib/github";
 import { DOM_IDS } from "@/lib/constants";
 import { TbArrowLeft } from "react-icons/tb";
 
@@ -11,21 +10,6 @@ export default async function Projects() {
   const content = await getContent();
   const repos = await getRepos(GITHUB_USER, new Set(content.hidden));
   const { repoNotes } = content;
-
-  // Group by language so a long list does not read as one undifferentiated wall.
-  const groups = repos.reduce<Record<string, Repo[]>>((acc, r) => {
-    const key = r.language ?? "Other";
-    (acc[key] ??= []).push(r);
-    return acc;
-  }, {});
-  // Backend languages lead; unlisted ones fall to the end, then by repo count.
-  const at = (lang: string) => {
-    const i = LANG_PRIORITY.indexOf(lang);
-    return i === -1 ? LANG_PRIORITY.length : i;
-  };
-  const ordered = Object.entries(groups).sort(
-    (a, b) => at(a[0]) - at(b[0]) || b[1].length - a[1].length,
-  );
 
   return (
     <div className="mx-auto max-w-4xl px-5 sm:px-8">
@@ -67,23 +51,8 @@ export default async function Projects() {
           . Forks and archived repos are filtered out.
         </p>
 
-        {ordered.map(([lang, items]) => (
-          <ScrollReveal key={lang} className="mt-12">
-            <h2 className="mb-5 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-muted">
-              <span className="text-accent">/</span>
-              {lang}
-              <span className="rounded-full border border-line/80 bg-surface/60 px-2 py-0.5 text-[10px] text-muted/70">
-                {items.length}
-              </span>
-              <span className="h-px flex-1 bg-line" />
-            </h2>
-            <StaggerList as="ul" className="grid gap-3.5 sm:grid-cols-2">
-              {items.map((r) => (
-                <RepoCard key={r.name} repo={r} notes={repoNotes} />
-              ))}
-            </StaggerList>
-          </ScrollReveal>
-        ))}
+        {/* Interactive Tech Stack Filter & Grouped Repositories */}
+        <ProjectsExplorer repos={repos} notes={repoNotes} />
       </main>
 
       <footer className="border-t border-line py-8 font-mono text-[11px] text-muted">
