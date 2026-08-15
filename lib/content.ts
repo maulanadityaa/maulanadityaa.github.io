@@ -22,11 +22,19 @@ export type TimelineEntry = {
   period: string;
   role: string;
   org: string;
+  logo?: string;
   employmentType?: string;
   location?: string;
   locationType?: "On-site" | "Hybrid" | "Remote" | string;
   detail: string;
   skills?: string[];
+};
+
+export type EducationInfo = {
+  school: string;
+  degree: string;
+  period: string;
+  logo?: string;
 };
 
 const FALLBACK = {
@@ -82,6 +90,7 @@ const FALLBACK = {
       period: "Aug 2025 — Present",
       role: "SAP Hybris Consultant",
       org: "PT. Astra Graphia Information Technology (AGIT)",
+      logo: "/logos/agit.png",
       employmentType: "Full-time",
       location: "North Jakarta, Jakarta, Indonesia",
       locationType: "On-site",
@@ -94,6 +103,7 @@ const FALLBACK = {
       period: "Aug 2025 — Present",
       role: "Back End Developer",
       org: "PT Astra International Tbk",
+      logo: "/logos/astra.png",
       employmentType: "Full-time",
       location: "North Jakarta, Jakarta, Indonesia",
       locationType: "On-site",
@@ -106,6 +116,7 @@ const FALLBACK = {
       period: "Jan 2024 — May 2024",
       role: "Trainee IT Bootcamp",
       org: "Enigma Camp",
+      logo: "/logos/enigma.png",
       employmentType: "Contract",
       location: "Malang, East Java, Indonesia",
       locationType: "On-site",
@@ -118,6 +129,7 @@ const FALLBACK = {
       period: "Jun 2021 — Aug 2021",
       role: "Quality Assurance Quality Control",
       org: "Widya Wicara",
+      logo: "/logos/widya.png",
       employmentType: "Internship",
       location: "Yogyakarta, Indonesia",
       locationType: "On-site",
@@ -130,7 +142,8 @@ const FALLBACK = {
     school: "University of Brawijaya",
     degree: "Bachelor's degree, Information Technology",
     period: "2018 — 2022",
-  },
+    logo: "/logos/brawijaya.svg",
+  } as EducationInfo,
 };
 
 type ContentDoc<T> = { _id: string; data: T };

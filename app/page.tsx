@@ -2,7 +2,7 @@ import Link from "next/link";
 import { RevealSection, ScrollReveal, StaggerList } from "@/components/animated";
 import { RepoCard } from "@/components/repo-card";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { GithubIcon, LinkedinIcon, Section, Tag, TechMark } from "@/components/ui";
+import { GithubIcon, LinkedinIcon, OrgLogo, Section, Tag, TechMark } from "@/components/ui";
 import {
   GITHUB_USER,
   LINKEDIN_URL,
@@ -290,35 +290,40 @@ export default async function Home() {
                     <span className="absolute left-[-4.5px] top-1.5 h-2 w-2 rounded-full bg-accent/60 transition-colors group-hover:bg-accent" />
                   )}
 
-                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[11px] text-muted">
-                    <span className="uppercase tracking-widest">{t.period}</span>
-                    {t.employmentType && <span>· {t.employmentType}</span>}
-                    {t.locationType && (
-                      <span className="rounded border border-line bg-surface/80 px-1.5 py-0.2 text-[10px] font-medium text-accent">
-                        {t.locationType}
-                      </span>
-                    )}
-                  </div>
+                  <div className="flex items-start gap-3.5">
+                    <OrgLogo name={t.org} logo={t.logo} className="mt-0.5" />
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[11px] text-muted">
+                        <span className="uppercase tracking-widest">{t.period}</span>
+                        {t.employmentType && <span>· {t.employmentType}</span>}
+                        {t.locationType && (
+                          <span className="rounded border border-line bg-surface/80 px-1.5 py-0.2 text-[10px] font-medium text-accent">
+                            {t.locationType}
+                          </span>
+                        )}
+                      </div>
 
-                  <p className="mt-1 text-sm font-medium transition-colors group-hover:text-accent">
-                    {t.role} <span className="text-muted">· {t.org}</span>
-                  </p>
+                      <p className="mt-1 text-sm font-medium transition-colors group-hover:text-accent">
+                        {t.role} <span className="text-muted">· {t.org}</span>
+                      </p>
 
-                  {t.location && (
-                    <p className="mt-0.5 font-mono text-[11px] text-muted/75">
-                      {t.location}
-                    </p>
-                  )}
+                      {t.location && (
+                        <p className="mt-0.5 font-mono text-[11px] text-muted/75">
+                          {t.location}
+                        </p>
+                      )}
 
-                  <p className="mt-1.5 text-sm leading-relaxed text-muted">{t.detail}</p>
+                      <p className="mt-1.5 text-sm leading-relaxed text-muted">{t.detail}</p>
 
-                  {t.skills && t.skills.length > 0 && (
-                    <div className="mt-3 flex flex-wrap gap-1.5">
-                      {t.skills.map((skill) => (
-                        <Tag key={skill}>{skill}</Tag>
-                      ))}
+                      {t.skills && t.skills.length > 0 && (
+                        <div className="mt-3 flex flex-wrap gap-1.5">
+                          {t.skills.map((skill) => (
+                            <Tag key={skill}>{skill}</Tag>
+                          ))}
+                        </div>
+                      )}
                     </div>
-                  )}
+                  </div>
                 </li>
               );
             })}
@@ -340,9 +345,16 @@ export default async function Home() {
             <p className="font-mono text-[11px] uppercase tracking-widest text-muted">
               Education
             </p>
-            <p className="mt-2 text-sm font-medium">{education.school}</p>
-            <p className="mt-1 text-sm text-muted">{education.degree}</p>
-            <p className="mt-1 font-mono text-[11px] text-muted">{education.period}</p>
+            <div className="mt-3 flex items-start gap-3.5">
+              <OrgLogo name={education.school} logo={education.logo} className="mt-0.5" />
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-medium transition-colors hover:text-accent">
+                  {education.school}
+                </p>
+                <p className="mt-0.5 text-sm text-muted">{education.degree}</p>
+                <p className="mt-1 font-mono text-[11px] text-muted">{education.period}</p>
+              </div>
+            </div>
           </ScrollReveal>
         </Section>
 

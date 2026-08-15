@@ -1,4 +1,5 @@
 import type { ComponentType, ReactNode } from "react";
+import { cn } from "@/lib/utils";
 import { FaLinkedin, FaJava } from "react-icons/fa6";
 import { TbBrandCSharp, TbApi, TbServer, TbBug, TbFlask } from "react-icons/tb";
 import {
@@ -309,4 +310,59 @@ export function GithubIcon({ size = 16 }: { size?: number }) {
 
 export function LinkedinIcon({ size = 16 }: { size?: number }) {
   return <FaLinkedin aria-hidden size={size} className="shrink-0 text-[#0A66C2]" />;
+}
+
+export function getOrgInitials(name: string): string {
+  const clean = name
+    .replace(/^PT\.?\s+/i, "")
+    .replace(/\s+Tbk\.?$/i, "")
+    .trim();
+
+  // If acronym in parentheses e.g. "(AGIT)"
+  const parenMatch = clean.match(/\(([^)]+)\)/);
+  if (parenMatch && parenMatch[1]) {
+    return parenMatch[1].slice(0, 3).toUpperCase();
+  }
+
+  const words = clean.split(/[\s-]+/).filter(Boolean);
+  if (words.length >= 2) {
+    return (words[0][0] + words[1][0]).toUpperCase();
+  }
+  return clean.slice(0, 2).toUpperCase();
+}
+
+export function OrgLogo({
+  name,
+  logo,
+  className,
+}: {
+  name: string;
+  logo?: string;
+  className?: string;
+}) {
+  const initials = getOrgInitials(name);
+
+  return (
+    <div
+      className={cn(
+        "relative flex h-11 w-11 shrink-0 select-none items-center justify-center overflow-hidden rounded-xl border border-zinc-200/80 bg-white p-1 shadow-sm transition-all duration-300 group-hover:border-accent group-hover:scale-105 group-hover:shadow-md dark:border-zinc-700/60 dark:bg-white",
+        className
+      )}
+      title={name}
+      aria-label={name}
+    >
+      {logo ? (
+        <img
+          src={logo}
+          alt={name}
+          className="h-full w-full object-contain rounded-lg"
+          loading="lazy"
+        />
+      ) : (
+        <span className="font-mono text-xs font-bold text-zinc-900 tracking-tight transition-transform duration-300 group-hover:scale-110">
+          {initials}
+        </span>
+      )}
+    </div>
+  );
 }

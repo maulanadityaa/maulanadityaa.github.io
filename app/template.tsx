@@ -41,7 +41,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
   );
 
   return (
-    <div ref={containerRef} className="overflow-x-hidden">
+    <div ref={containerRef}>
       {children}
     </div>
   );
