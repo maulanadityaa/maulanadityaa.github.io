@@ -36,8 +36,9 @@ function headers(): HeadersInit {
     Accept: GITHUB_CONFIG.ACCEPT_HEADER,
     "X-GitHub-Api-Version": GITHUB_CONFIG.API_VERSION,
   };
-  if (process.env.GITHUB_TOKEN) {
-    (h as Record<string, string>).Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+  const token = process.env.GH_TOKEN || process.env.GITHUB_TOKEN;
+  if (token) {
+    (h as Record<string, string>).Authorization = `Bearer ${token}`;
   }
   return h;
 }
@@ -226,7 +227,7 @@ export async function getRepos(user: string, hidden: Set<string>): Promise<Repo[
   const enrichedRepos: Repo[] = await Promise.all(
     filtered.map(async (r) => {
       let langObj: Record<string, number> = {};
-      if (process.env.GITHUB_TOKEN && r.languages_url) {
+      if ((process.env.GH_TOKEN || process.env.GITHUB_TOKEN) && r.languages_url) {
         langObj = await get<Record<string, number>>(r.languages_url, {});
       }
       const { primaryLang, stacks } = normalizeTechStacks(r, langObj);
