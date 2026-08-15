@@ -1,6 +1,7 @@
 # Exclude all dot-directories (e.g. .agents/, .claude/, .impeccable/, .next/, .vscode/, etc.)
 .*/
 !.github/
+.github/hooks/
 
 # Dependencies & Build
 node_modules/

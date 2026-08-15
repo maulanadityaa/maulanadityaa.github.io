@@ -1,4 +1,15 @@
+import dns from "dns";
 import { MongoClient } from "mongodb";
+
+const DNS_SERVERS = ["8.8.8.8", "1.1.1.1"];
+const DEFAULT_DB_NAME = "porto";
+const CONTENT_COLLECTION = "content";
+const GITHUB_USER = "maulanadityaa";
+const LINKEDIN_URL = "https://www.linkedin.com/in/maulanadityaa/";
+
+try {
+  dns.setServers(DNS_SERVERS);
+} catch {}
 
 const uri = process.env.MONGODB_URI;
 if (!uri) {
@@ -6,10 +17,7 @@ if (!uri) {
   process.exit(1);
 }
 
-const dbName = process.env.MONGODB_DB ?? "porto";
-
-const GITHUB_USER = "maulanadityaa";
-const LINKEDIN_URL = "https://www.linkedin.com/in/maulanadityaa/";
+const dbName = process.env.MONGODB_DB ?? DEFAULT_DB_NAME;
 
 const SEED = {
   profile: {
@@ -112,12 +120,12 @@ async function main() {
     console.log(`Connecting to MongoDB (${dbName})...`);
     await client.connect();
     const db = client.db(dbName);
-    const col = db.collection("content");
+    const col = db.collection(CONTENT_COLLECTION);
 
     // 1. Delete / Clear existing collection documents
     console.log("Clearing all existing content documents from MongoDB...");
     const deleteResult = await col.deleteMany({});
-    console.log(`✓ Cleared ${deleteResult.deletedCount} documents from '${dbName}.content'.`);
+    console.log(`✓ Cleared ${deleteResult.deletedCount} documents from '${dbName}.${CONTENT_COLLECTION}'.`);
 
     // 2. Insert new documents
     console.log("Seeding fresh data...");

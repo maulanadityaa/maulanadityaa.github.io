@@ -2,8 +2,7 @@
 
 import { Moon, Sun } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-const STORAGE_KEY = "portfolio-theme";
+import { STORAGE_KEYS, THEME_MODES } from "@/lib/constants";
 
 interface ThemeToggleProps {
   className?: string;
@@ -12,10 +11,10 @@ interface ThemeToggleProps {
 export function ThemeToggle({ className }: ThemeToggleProps) {
   const toggle = () => {
     const current = document.documentElement.dataset.theme;
-    const next = current === "dark" ? "light" : "dark";
+    const next = current === THEME_MODES.DARK ? THEME_MODES.LIGHT : THEME_MODES.DARK;
     document.documentElement.dataset.theme = next;
     try {
-      window.localStorage.setItem(STORAGE_KEY, next);
+      window.localStorage.setItem(STORAGE_KEYS.THEME, next);
     } catch {}
   };
 

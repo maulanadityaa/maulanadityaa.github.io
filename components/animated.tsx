@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type ElementType, type ReactNode } from "react";
+import { CSS_CLASSES, MEDIA_QUERIES } from "@/lib/constants";
 
 export function RevealSection({
   children,
@@ -26,12 +27,12 @@ export function ScrollReveal({
     const el = ref.current;
     if (!el || typeof IntersectionObserver === "undefined") return;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (window.matchMedia(MEDIA_QUERIES.REDUCED_MOTION).matches) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          el.classList.add("is-revealed");
+          el.classList.add(CSS_CLASSES.IS_REVEALED);
           observer.unobserve(el);
         }
       },
@@ -40,7 +41,7 @@ export function ScrollReveal({
 
     const rect = el.getBoundingClientRect();
     if (rect.top > window.innerHeight) {
-      el.classList.add("reveal-on-scroll");
+      el.classList.add(CSS_CLASSES.REVEAL_ON_SCROLL);
       observer.observe(el);
     }
 

@@ -5,9 +5,16 @@
 // renders when MONGODB_URI is unset or the DB is unreachable, so the site never goes down.
 import { unstable_cache } from "next/cache";
 import { db } from "@/lib/mongo";
+import {
+  GITHUB_USERNAME,
+  LINKEDIN_PROFILE_URL,
+  DB_CONFIG,
+  CONTENT_SECTION_KEYS,
+  CACHE_CONFIG,
+} from "@/lib/constants";
 
-export const GITHUB_USER = "maulanadityaa";
-export const LINKEDIN_URL = "https://www.linkedin.com/in/maulanadityaa/";
+export const GITHUB_USER = GITHUB_USERNAME;
+export const LINKEDIN_URL = LINKEDIN_PROFILE_URL;
 export const experienceSource = LINKEDIN_URL;
 
 export type TimelineEntry = {
@@ -128,38 +135,41 @@ const FALLBACK = {
 
 type ContentDoc<T> = { _id: string; data: T };
 
-// Never let a DB outage take the page down — fall back to the hardcoded value.
-async function section<K extends keyof typeof FALLBACK>(
-  key: K,
-): Promise<(typeof FALLBACK)[K]> {
+async function fetchContent() {
   try {
     const database = await db();
-    if (!database) return FALLBACK[key];
-    const doc = await database
-      .collection<ContentDoc<(typeof FALLBACK)[K]>>("content")
-      .findOne({ _id: key });
-    return doc?.data ?? FALLBACK[key];
-  } catch (err) {
-    console.error(`content ${key} failed`, err);
-    return FALLBACK[key];
-  }
-}
+    if (!database) return FALLBACK;
 
-async function fetchContent() {
-  return {
-    profile: await section("profile"),
-    timeline: await section("timeline"),
-    education: await section("education"),
-    repoNotes: await section("repoNotes"),
-    featured: await section("featured"),
-    hidden: await section("hidden"),
-  };
+    const docs = await database
+      .collection<ContentDoc<unknown>>(DB_CONFIG.CONTENT_COLLECTION)
+      .find({
+        _id: { $in: [...CONTENT_SECTION_KEYS] },
+      })
+      .toArray();
+
+    const map = new Map(docs.map((d) => [d._id, d.data]));
+
+    return {
+      profile: (map.get("profile") as typeof FALLBACK.profile) ?? FALLBACK.profile,
+      timeline: (map.get("timeline") as typeof FALLBACK.timeline) ?? FALLBACK.timeline,
+      education: (map.get("education") as typeof FALLBACK.education) ?? FALLBACK.education,
+      repoNotes: (map.get("repoNotes") as typeof FALLBACK.repoNotes) ?? FALLBACK.repoNotes,
+      featured: (map.get("featured") as typeof FALLBACK.featured) ?? FALLBACK.featured,
+      hidden: (map.get("hidden") as typeof FALLBACK.hidden) ?? FALLBACK.hidden,
+    };
+  } catch (err) {
+    console.warn("Content fetch from MongoDB failed, using fallback:", (err as Error).message || err);
+    return FALLBACK;
+  }
 }
 
 const getCachedContent = unstable_cache(
   fetchContent,
-  ["content"],
-  { revalidate: 3600, tags: ["content"] },
+  [CACHE_CONFIG.CONTENT_TAG],
+  {
+    revalidate: CACHE_CONFIG.CONTENT_REVALIDATE_SECONDS,
+    tags: [CACHE_CONFIG.CONTENT_TAG],
+  },
 );
 
 export const getContent = () => {

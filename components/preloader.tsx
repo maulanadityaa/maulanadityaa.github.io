@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-
-const STORAGE_KEY = "portfolio_session_loaded";
+import { STORAGE_KEYS, DOM_IDS, ANIMATION_CONFIG } from "@/lib/constants";
 
 export function Preloader() {
   const [progress, setProgress] = useState(0);
@@ -14,14 +13,14 @@ export function Preloader() {
 
   useEffect(() => {
     try {
-      if (sessionStorage.getItem(STORAGE_KEY) === "true") {
+      if (sessionStorage.getItem(STORAGE_KEYS.SESSION_LOADED) === "true") {
         setRemoved(true);
         return;
       }
     } catch {}
 
     const start = performance.now();
-    const duration = 650; // ms
+    const duration = ANIMATION_CONFIG.PRELOADER_DURATION_MS;
 
     const timer = setInterval(() => {
       const elapsed = performance.now() - start;
@@ -31,12 +30,12 @@ export function Preloader() {
       if (pct >= 100) {
         clearInterval(timer);
         try {
-          sessionStorage.setItem(STORAGE_KEY, "true");
+          sessionStorage.setItem(STORAGE_KEYS.SESSION_LOADED, "true");
         } catch {}
 
         // Calculate FLIP animation to target navbar brand icon
         setTimeout(() => {
-          const navBrand = document.getElementById("nav-brand");
+          const navBrand = document.getElementById(DOM_IDS.NAV_BRAND);
           const logoEl = logoRef.current;
 
           if (navBrand && logoEl) {
@@ -63,10 +62,10 @@ export function Preloader() {
 
           setTimeout(() => {
             setRemoved(true);
-          }, 680);
-        }, 120);
+          }, ANIMATION_CONFIG.PRELOADER_REMOVAL_DELAY_MS);
+        }, ANIMATION_CONFIG.PRELOADER_FLIP_DELAY_MS);
       }
-    }, 20);
+    }, ANIMATION_CONFIG.PRELOADER_TICK_INTERVAL_MS);
 
     return () => clearInterval(timer);
   }, []);
@@ -75,7 +74,7 @@ export function Preloader() {
 
   return (
     <div
-      id="initial-preloader"
+      id={DOM_IDS.INITIAL_PRELOADER}
       aria-hidden="true"
       suppressHydrationWarning
       className={`fixed inset-0 z-[100] flex flex-col items-center justify-center transition-colors duration-600 ease-out pointer-events-none ${

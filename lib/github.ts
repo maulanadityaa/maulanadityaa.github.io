@@ -26,13 +26,12 @@ export type Profile = {
   followers: number;
 };
 
-const API = "https://api.github.com";
-const REVALIDATE = 3600; // 1 hour
+import { GITHUB_CONFIG, CACHE_CONFIG } from "@/lib/constants";
 
 function headers(): HeadersInit {
   const h: HeadersInit = {
-    Accept: "application/vnd.github+json",
-    "X-GitHub-Api-Version": "2022-11-28",
+    Accept: GITHUB_CONFIG.ACCEPT_HEADER,
+    "X-GitHub-Api-Version": GITHUB_CONFIG.API_VERSION,
   };
   if (process.env.GITHUB_TOKEN) {
     (h as Record<string, string>).Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
@@ -43,9 +42,9 @@ function headers(): HeadersInit {
 // Never let a GitHub outage or a rate-limit take the whole page down.
 async function get<T>(path: string, fallback: T): Promise<T> {
   try {
-    const res = await fetch(`${API}${path}`, {
+    const res = await fetch(`${GITHUB_CONFIG.API_BASE_URL}${path}`, {
       headers: headers(),
-      next: { revalidate: REVALIDATE },
+      next: { revalidate: CACHE_CONFIG.GITHUB_REVALIDATE_SECONDS },
     });
     if (!res.ok) {
       console.error(`GitHub ${path} -> ${res.status} ${res.statusText}`);
@@ -88,7 +87,7 @@ function rank(r: Repo): number {
 
 export async function getRepos(user: string, hidden: Set<string>): Promise<Repo[]> {
   const repos = await get<Repo[]>(
-    `/users/${user}/repos?per_page=100&sort=pushed`,
+    `/users/${user}/repos?per_page=${GITHUB_CONFIG.REPOS_PER_PAGE}&sort=${GITHUB_CONFIG.SORT_ORDER}`,
     [],
   );
   return repos

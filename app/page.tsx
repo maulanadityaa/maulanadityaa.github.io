@@ -10,6 +10,7 @@ import {
   getContent,
 } from "@/lib/content";
 import { LANG_PRIORITY, getProfile, getRepos } from "@/lib/github";
+import { DOM_IDS } from "@/lib/constants";
 import { TbArrowRight, TbArrowUpRight } from "react-icons/tb";
 
 const nav = [
@@ -72,7 +73,11 @@ export default async function Home() {
   return (
     <div className="mx-auto max-w-4xl px-5 sm:px-8">
       <header className="sticky top-0 z-40 -mx-5 flex items-center justify-between border-b border-line/60 bg-bg/80 px-5 py-4 backdrop-blur-md sm:-mx-8 sm:px-8">
-        <a id="nav-brand" href="#main" className="group font-mono text-sm font-semibold tracking-tight text-text">
+        <a
+          id={DOM_IDS.NAV_BRAND}
+          href={`#${DOM_IDS.MAIN_CONTENT}`}
+          className="group font-mono text-sm font-semibold tracking-tight text-text"
+        >
           ma<span className="inline-block text-accent transition-transform duration-300 group-hover:scale-150 group-hover:rotate-12">.</span>
         </a>
         <nav className="flex items-center gap-5 text-sm text-muted">
@@ -89,7 +94,7 @@ export default async function Home() {
         </nav>
       </header>
 
-      <main id="main">
+      <main id={DOM_IDS.MAIN_CONTENT}>
         {/* Split 2-Column Hero Section */}
         <RevealSection className="py-10 sm:py-14">
           <div className="grid gap-8 md:grid-cols-12 md:items-center">

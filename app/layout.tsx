@@ -25,6 +25,14 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+import {
+  STORAGE_KEYS,
+  THEME_MODES,
+  DOM_IDS,
+  CSS_CLASSES,
+  MEDIA_QUERIES,
+} from "@/lib/constants";
+
 export async function generateMetadata(): Promise<Metadata> {
   const { profile } = await getContent();
   return {
@@ -46,6 +54,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const themeInitScript = `(function(){try{if(history.scrollRestoration){history.scrollRestoration='manual';}window.scrollTo(0,0);var s=localStorage.getItem('${STORAGE_KEYS.THEME}'),d=window.matchMedia('${MEDIA_QUERIES.DARK_COLOR_SCHEME}').matches,t=s==='${THEME_MODES.LIGHT}'||s==='${THEME_MODES.DARK}'?s:(d?'${THEME_MODES.DARK}':'${THEME_MODES.LIGHT}');document.documentElement.setAttribute('data-theme',t);if(sessionStorage.getItem('${STORAGE_KEYS.SESSION_LOADED}')==='true'){document.documentElement.classList.add('${CSS_CLASSES.HIDE_PRELOADER}');}}catch(e){}})();`;
+
   return (
     <html
       lang="en"
@@ -62,7 +72,7 @@ export default function RootLayout({
         <script
           suppressHydrationWarning
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{if(history.scrollRestoration){history.scrollRestoration='manual';}window.scrollTo(0,0);var s=localStorage.getItem('portfolio-theme'),d=window.matchMedia('(prefers-color-scheme: dark)').matches,t=s==='light'||s==='dark'?s:(d?'dark':'light');document.documentElement.setAttribute('data-theme',t);if(sessionStorage.getItem('portfolio_session_loaded')==='true'){document.documentElement.classList.add('hide-preloader');}}catch(e){}})();`,
+            __html: themeInitScript,
           }}
         />
 
@@ -76,7 +86,7 @@ export default function RootLayout({
         </div>
 
         <a
-          href="#main"
+          href={`#${DOM_IDS.MAIN_CONTENT}`}
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-accent focus:px-3 focus:py-2 focus:text-sm focus:text-on-accent"
         >
           Skip to content

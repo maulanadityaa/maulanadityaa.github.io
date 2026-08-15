@@ -4,6 +4,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { GITHUB_USER, getContent } from "@/lib/content";
 import { LANG_PRIORITY, getRepos, type Repo } from "@/lib/github";
 import { ScrollReveal, StaggerList } from "@/components/animated";
+import { DOM_IDS } from "@/lib/constants";
 import { TbArrowLeft } from "react-icons/tb";
 
 export default async function Projects() {
@@ -29,7 +30,11 @@ export default async function Projects() {
   return (
     <div className="mx-auto max-w-4xl px-5 sm:px-8">
       <header className="sticky top-0 z-40 -mx-5 flex items-center justify-between border-b border-line/60 bg-bg/80 px-5 py-4 backdrop-blur-md sm:-mx-8 sm:px-8">
-        <Link id="nav-brand" href="/" className="group font-mono text-sm font-semibold tracking-tight text-text">
+        <Link
+          id={DOM_IDS.NAV_BRAND}
+          href="/"
+          className="group font-mono text-sm font-semibold tracking-tight text-text"
+        >
           ma<span className="inline-block text-accent transition-transform duration-300 group-hover:scale-150 group-hover:rotate-12">.</span>
         </Link>
         <div className="flex items-center gap-5">
